@@ -20,39 +20,30 @@ public class DbUtil {
             return connection;
         else {
             try {
-            	//Option, use Tomcat db connection pool!
-            	
-            	Properties prop = new Properties();
-            	
+            	//Option, use Tomcat db connection pool!            	
+            	//Properties prop = new Properties();            	
             	//Properie file at: WebContent/WEB-INF/classes
-                InputStream inputStream = DbUtil.class.getClassLoader().getResourceAsStream("/db.resources");
-
-                String driver, url, user, password;              
-
-				prop.load(inputStream);
-     
-				driver = prop.getProperty("driver");
-	            url = prop.getProperty("url");
-	            user = prop.getProperty("user");
-	            password = prop.getProperty("password");
-	                
+                //InputStream inputStream = DbUtil.class.getClassLoader().getResourceAsStream("/db.resources");
+                //String driver, url, user, password;
+                //prop.load(inputStream);     
+				//driver = prop.getProperty("driver");
+	            //url = prop.getProperty("url");
+	            //user = prop.getProperty("user");
+	            //password = prop.getProperty("password");	                
 	            //Log
-				System.out.println(driver + " - " + url + " - " + new Date());
-			                        
-                Class.forName(driver); //Verifica se o driver do BD esta disponivel (JDBC) - Legado
-                
-                connection = DriverManager.getConnection(url, user, password);
+				//System.out.println(driver + " - " + url + " - " + new Date());			                        
+                //Class.forName(driver); //Verifica se o driver do BD esta disponivel (JDBC) - Legado                
+                //connection = DriverManager.getConnection(url, user, password);            
+                //System.out.println(connection);
+         
+            	 String url = "jdbc:mysql://localhost/HP_DB";
+            	 String usuario = "root";
+           	     String senha = "@Italo13";
+           	     connection = DriverManager.getConnection(url, usuario, senha);            	
+            	                
             
-                System.out.println(connection);
-                
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            	e.printStackTrace();          
             }
             
             return connection;

@@ -25,7 +25,7 @@ public class UsuarioDao implements Dao<Usuario>{
 		
 		try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO HP_DB.Usuarios (Nome, Email, Senha) VALUES (?, ?, ?)");
+                    .prepareStatement("INSERT INTO hp_db.usuarios (nome, email, senha) VALUES (?, ?, ?)");
             
             // Parameters start with 1
             preparedStatement.setString(1, usuario.getNome());

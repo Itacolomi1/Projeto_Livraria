@@ -1,5 +1,7 @@
 package hp.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 //Referência: https://cursos.alura.com.br/forum/topico-dao-generica-61881
@@ -18,4 +20,5 @@ public interface Dao<DomainObject> {
 	
 	public  ArrayList<DomainObject> findAll(DomainObject obj);
 	
+	public DomainObject preencherEntidade(ResultSet rs) throws SQLException;
 }

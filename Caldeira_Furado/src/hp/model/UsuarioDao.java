@@ -36,6 +36,7 @@ public class UsuarioDao implements Dao<Usuario>{
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 		
 	}
@@ -53,15 +54,46 @@ public class UsuarioDao implements Dao<Usuario>{
 	}
 
 	@Override
-	public Usuario find(Usuario obj) {
+	public Usuario find(Usuario usuario) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		try {
+			PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT * FROM hp_db.usuarios WHERE cod_usuario = ?");
+			
+			preparedStatement.setString(1, Integer.toString(usuario.getCod_Usuario()));
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.first()) {
+				usuario = preencherEntidade(rs);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			
+		}
+		
+		return usuario;
 	}
 
 	@Override
 	public ArrayList<Usuario> findAll(Usuario obj) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Usuario preencherEntidade(ResultSet rs) throws SQLException {
+		// TODO Auto-generated method stub
+		Usuario usuario = new Usuario();
+		
+		usuario.setCod_Usuario(rs.getInt("cod_usuario"));
+		usuario.setNome(rs.getString("nome"));
+		usuario.setEmail(rs.getString("email"));
+		usuario.setSenha(rs.getString("senha"));		
+		
+		return usuario;
 	}
 	
 

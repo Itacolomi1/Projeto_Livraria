@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import hp.beans.Usuario;
 import hp.model.UsuarioDao;
 
@@ -43,17 +45,25 @@ public class UsuarioApi extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub		
 		
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
 		Usuario usuario = new Usuario();
 		
-		usuario.setCod_Usuario(0);
-		usuario.setEmail(request.getParameter("email"));
-		usuario.setNome(request.getParameter("nome"));
-		usuario.setSenha(request.getParameter("senha"));
 		
+		usuario.setEmail(request.getParameter("email"));
+		Gson gson = new Gson();
+		Usuario user = new Usuario();
 		UsuarioDao dao = new UsuarioDao();
-		dao.insert(usuario);
+		user = dao.find(usuario);
+		if(user != null) {
+			response.getWriter().append(gson.toJson(user));
+		}
+		else {
+			response.getWriter().append("Usuário não encontrado");
+		}
+		
 	}
 
 	/**
@@ -61,7 +71,16 @@ public class UsuarioApi extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+        Usuario usuario = new Usuario();
+		
+		usuario.setCod_Usuario(0);
+		usuario.setEmail(request.getParameter("email"));
+		usuario.setNome(request.getParameter("nome"));
+		usuario.setSenha(request.getParameter("senha"));		
+		
+		UsuarioDao dao = new UsuarioDao();
+		dao.insert(usuario);
+	
 	}
 
 	/**

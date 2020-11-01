@@ -65,8 +65,35 @@ var livraria = function() {
             bairro: "bairro",
             cidade: "cidade",
             numerocasa: "numerocasa",
-            complemento: "complemento"
+            complemento: "complemento",
+            emailuser: "emailbusca"
+    
         };
+    }
+
+    var buscaUsuario = function() {
+
+    
+        var email = document.getElementById(controles().emailuser).value;
+        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?email="+ email;
+
+        var myInit = { method: 'GET'
+        }
+
+        fetch(request)
+            .then(function(response) {
+                debugger;
+                return response.json();
+            })
+            .then(function(data) {
+                debugger;
+                console.log(data);
+            }).catch(function(error) {
+                debugger;
+                console.log('Request failed', error);
+            });
+
+
     }
 
     var search_books = function() {
@@ -243,7 +270,8 @@ var livraria = function() {
         harry_potter_head: harry_potter_head,
         harry_potter_news: harry_potter_news,
         harry_potter_character: harry_potter_character,
-        search_adress: search_adress
+        search_adress: search_adress, 
+        buscaUsuario: buscaUsuario
     };
 
 }();

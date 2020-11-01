@@ -59,9 +59,9 @@ public class UsuarioDao implements Dao<Usuario>{
 		
 		try {
 			PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM hp_db.usuarios WHERE cod_usuario = ?");
+                    .prepareStatement("SELECT * FROM hp_db.usuarios WHERE email = ?");
 			
-			preparedStatement.setString(1, Integer.toString(usuario.getCod_Usuario()));
+			preparedStatement.setString(1,usuario.getEmail());
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.first()) {

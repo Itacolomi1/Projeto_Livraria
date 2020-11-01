@@ -73,11 +73,24 @@ body .dropdown-menu {
     width: auto;
 }
 
+#cadastro.primeiro .busca,
+#cadastro.primeiro .cadastra,
+#cadastro.busca .cadastra,
+#cadastro.cadastra .busca {
+    display: none;
+}
+
 #cadastro form label {
     display: inline-block;
     margin-bottom: .5rem;
     font-family: Roboto, sans-serif;
     text-transform: uppercase;
+}
+
+#cadastro .busca .nome,
+#cadastro .busca .btn-excluir,
+#cadastro .btn-voltar {
+    margin-top: 20px;
 }
 
 #booksList div.ocultar p {
@@ -89,10 +102,30 @@ body .dropdown-menu {
     margin: auto;
 }
 
+#cadastro.primeiro #inicial {
+    display: block;
+}
+
+#cadastro #inicial {
+    display: none;
+}
+
 #cadastro form .btn-primary {
     background: #873436;
     border: none;
     width: 100%;
+}
+
+#cadastro #inicial .btn-primary {
+    background: #873436;
+    border: none;
+    width: 100%;
+    margin-top: 30px;
+}
+
+#inicial {
+    max-width: 500px;
+    margin: auto;
 }
 
 #cadastro,

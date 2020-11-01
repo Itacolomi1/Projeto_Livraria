@@ -11,11 +11,45 @@ var characterList = []
 
 function manutencao() { alert("Ainda estamos trabalhando nessa função"); }
 
+function abrircadastrar() {
+    var principal = document.getElementById("cadastro");
+    if (principal.classList.contains('busca')) {
+        $('#cadastro').removeClass('busca');
+        $('#cadastro').addClass('cadastra');
+    } else {
+        $('#cadastro').removeClass('primeiro');
+        $('#cadastro').addClass('cadastra');
+    }
+
+}
+
+function abrirbusca() {
+    var principal = document.getElementById("cadastro");
+    if (principal.classList.contains('cadastra')) {
+        $('#cadastro').removeClass('cadastra');
+        $('#cadastro').addClass('busca');
+    } else {
+        $('#cadastro').removeClass('primeiro');
+        $('#cadastro').addClass('busca');
+    }
+
+}
+
+function abririncial() {
+    var principal = document.getElementById("cadastro");
+    if (principal.classList.contains('cadastra')) {
+        $('#cadastro').removeClass('cadastra');
+        $('#cadastro').addClass('primeiro');
+    } else {
+        $('#cadastro').removeClass('busca');
+        $('#cadastro').addClass('primeiro');
+    }
+
+}
+
 function compraRealizada() {
     alert("Compra realizada com sucesso");
 }
-
-
 var livraria = function() {
 
     //Ids dos elementos da tela

@@ -52,13 +52,18 @@
             </div>
         </div>
     </nav>
-    <div id="cadastro">
+    <div id="cadastro" class="primeiro">
         <div class="titulo">
             <h1>Cadastro</h1>
             <img data-v-b1739aaa="" src="img/cadastro.png" alt="icon">
         </div>
+        <div id="inicial">
 
-        <form method = "POST" action="/Caldeira_Furado/UsuarioApi">
+            <button onclick="abrircadastrar()" class="btn btn-primary"> Cadastrar</button>
+
+            <button onclick="abrirbusca()" class="btn btn-primary"> Buscar</button>
+        </div>
+  <form class="cadastra" method = "POST" action="/Caldeira_Furado/UsuarioApi">
             <div class="form-group">
                 <label for="exampleInputNome">Nome</label>
                 <input type="text" class="form-control" id="nome" name="nome" aria-describedby="NomeHelp" placeholder="Nome">
@@ -72,6 +77,31 @@
                 <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha">
             </div>
             <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <button onclick=" abririncial()" type="submit" class="btn btn-primary btn-voltar">Voltar</button>
+        </form>
+        
+        <form class="busca">
+
+            <div class="form-group ">
+                <label for="exampleInputEmail1">E-mail</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="E-mail">
+            </div>
+            <button onclick="manutencao()" type="submit" class="btn btn-primary btn-busca"> Buscar</button>
+            <div class="form-group">
+                <label class="nome" for="exampleInputNome">Nome</label>
+                <input type="text" class="form-control" id="exampleInputNome" aria-describedby="NomeHelp" placeholder="Nome">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Senha</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+            </div>
+
+            <button onclick="manutencao()" type="submit" class="btn btn-primary "> Alterar</button>
+
+            <button onclick="manutencao()" type="submit" class="btn btn-primary btn-excluir"> Excluir</button>
+
+            <button onclick=" abririncial()" type="submit" class="btn btn-primary btn-voltar">Voltar</button>
+
         </form>
     </div>
     <footer>

@@ -56,16 +56,17 @@ public class UsuarioDao implements Dao<Usuario>{
 	@Override
 	public Usuario find(Usuario usuario) {
 		// TODO Auto-generated method stub
-		
+		Usuario retorno = null;
 		try {
 			PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM hp_db.usuarios WHERE email = ?");
+                    .prepareStatement("SELECT * FROM hp_db.usuarios WHERE email = ?",ResultSet.TYPE_SCROLL_SENSITIVE, 
+                            ResultSet.CONCUR_UPDATABLE);
 			
-			preparedStatement.setString(1,usuario.getEmail());
+			preparedStatement.setString(1, usuario.getEmail());
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.first()) {
-				usuario = preencherEntidade(rs);
+				retorno = preencherEntidade(rs);
 			}
 			
 		}catch(SQLException e) {
@@ -74,7 +75,7 @@ public class UsuarioDao implements Dao<Usuario>{
 			
 		}
 		
-		return usuario;
+		return retorno;
 	}
 
 	@Override

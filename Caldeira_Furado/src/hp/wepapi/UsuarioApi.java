@@ -57,11 +57,13 @@ public class UsuarioApi extends HttpServlet {
 		Usuario user = new Usuario();
 		UsuarioDao dao = new UsuarioDao();
 		user = dao.find(usuario);
+		
 		if(user != null) {
-			response.getWriter().append(gson.toJson(user));
+			response.getWriter().print(gson.toJson(user));
+			response.getWriter().flush();
 		}
 		else {
-			response.getWriter().append("Usu√°rio n√£o encontrado");
+			response.getWriter().append("Usu·rio N„o encontrado");
 		}
 		
 	}

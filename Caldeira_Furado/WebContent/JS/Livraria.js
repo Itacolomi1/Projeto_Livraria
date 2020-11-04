@@ -66,15 +66,17 @@ var livraria = function() {
             cidade: "cidade",
             numerocasa: "numerocasa",
             complemento: "complemento",
-            emailuser: "emailbusca"
+            emailuser: "#emailbusca",
+            nome_altera: "#nome_altera",
+            password_altera: "#password_altera",
+            cod_usuario: "#cod_usuario"
     
         };
     }
 
     var buscaUsuario = function() {
-
-       debugger;
-        var email = document.getElementById(controles().emailuser).value;
+       
+        var email = $(controles().emailuser).val();
         request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?email="+ email;      
 
         $.ajax({
@@ -82,12 +84,11 @@ var livraria = function() {
             url: request,            
             dataType:'json',
         })
-            .done(function(returned) {
-                debugger;            
+            .done(function(returned) {                
                 console.log(returned);
-                $('#cod_usuario').val(returned.Cod_Usuario)
-                $('#exampleInputNome').val(returned.Nome);
-                $('#exampleInputPassword1').val(returned.Senha);
+                $(controles().cod_usuario).val(returned.Cod_Usuario)
+                $(controles().nome_altera).val(returned.Nome);
+                $(controles().password_altera).val(returned.Senha);
             })
             .fail(function(jqXHR) {
                 console.log('Erro');
@@ -95,6 +96,49 @@ var livraria = function() {
 
     }
 
+    var AlteraUsuario = function(){
+        debugger;
+        var cod_usuario = $(controles().cod_usuario).val(); 
+        var email = $(controles().emailuser).val();
+        var nome = $(controles().nome_altera).val(); 
+        var password = $(controles().password_altera).val();          
+     
+        
+        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?id=" + cod_usuario +        
+                                        "&nome=" + nome + "&email=" + email + "&senha=" + password;
+        
+
+        $.ajax({
+            type:'put',
+            url: request,                    
+        })
+            .done(function(returned) {                
+             console.log("Usuario alterado")
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro');
+            });
+
+    }
+
+    var DeletaUsuario = function(){
+        var cod_usuario = $(controles().cod_usuario).val();              
+        
+        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?id=" + cod_usuario;
+        
+
+        $.ajax({
+            type:'delete',
+            url: request,                        
+        })
+            .done(function(returned) {                
+                console.log("Usuario deletado");                 
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro');
+            });
+
+    }
     var search_books = function() {
         var content = document.getElementById(controles().search_books).value;
         var request = url_base + content + '&filter=partial&projection=lite&key=' + api_key;
@@ -270,7 +314,9 @@ var livraria = function() {
         harry_potter_news: harry_potter_news,
         harry_potter_character: harry_potter_character,
         search_adress: search_adress, 
-        buscaUsuario: buscaUsuario
+        buscaUsuario: buscaUsuario,
+        AlteraUsuario: AlteraUsuario,
+        DeletaUsuario: DeletaUsuario
     };
 
 }();

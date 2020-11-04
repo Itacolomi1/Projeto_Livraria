@@ -90,6 +90,18 @@ public class UsuarioApi extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		Usuario usuario = new Usuario();		
+		
+		usuario.setCod_Usuario(Integer.parseInt(request.getParameter("id")));
+		usuario.setEmail(request.getParameter("email"));
+		usuario.setNome(request.getParameter("nome"));
+		usuario.setSenha(request.getParameter("senha"));		
+		
+		UsuarioDao dao = new UsuarioDao();
+		dao.update(usuario);
+		
+		
 	}
 
 	/**
@@ -97,6 +109,11 @@ public class UsuarioApi extends HttpServlet {
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Usuario usuario = new Usuario();			
+		usuario.setCod_Usuario(Integer.parseInt(request.getParameter("id")));			
+		
+		UsuarioDao dao = new UsuarioDao();
+		dao.delete(usuario);
 	}
 
 }

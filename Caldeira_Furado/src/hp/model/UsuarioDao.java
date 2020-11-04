@@ -42,14 +42,45 @@ public class UsuarioDao implements Dao<Usuario>{
 	}
 
 	@Override
-	public void update(Usuario obj) {
+	public void update(Usuario usuario) {
 		// TODO Auto-generated method stub
+		
+		try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("UPDATE hp_db.usuarios SET nome = ? , email = ? , senha = ? WHERE cod_usuario = ?");
+            
+            // Parameters start with 1
+            preparedStatement.setString(1, usuario.getNome());
+            preparedStatement.setString(2, usuario.getEmail());
+            preparedStatement.setString(3, usuario.getSenha());
+            preparedStatement.setString(4, Integer.toString(usuario.getCod_Usuario()));
+            
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
 		
 	}
 
 	@Override
-	public void delete(Usuario obj) {
+	public void delete(Usuario usuario) {
 		// TODO Auto-generated method stub
+		
+		try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("DELETE FROM hp_db.usuarios WHERE cod_usuario = ?");
+            
+            // Parameters start with 1           
+            preparedStatement.setString(1, Integer.toString(usuario.getCod_Usuario()));
+            
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
 		
 	}
 

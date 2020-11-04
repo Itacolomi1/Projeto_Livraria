@@ -75,40 +75,23 @@ var livraria = function() {
 
        debugger;
         var email = document.getElementById(controles().emailuser).value;
-        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?email="+ email;
-
-        var myInit = { method: 'GET'
-        }
-
-        // fetch(request)
-        //     .then(function(response) {
-        //         debugger;                
-        //         return response.text();
-        //     })
-        //     .then(function(data) {
-        //         debugger;
-        //         console.log(data);
-        //     }).catch(function(error) {
-        //         debugger;
-        //         console.log('Request failed', error);
-        //     });
+        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?email="+ email;      
 
         $.ajax({
             type:'get',
             url: request,            
             dataType:'json',
-            success: dados => {    
-                debugger;            
-                console.log(dados);
-                $('#exampleInputNome').val(dados.Nome);
-                $('#exampleInputPassword1').val(dados.Senha);
-               
-            },
-            error : erro => {
-                debugger;            
-                console.log('Erro');
-            }
         })
+            .done(function(returned) {
+                debugger;            
+                console.log(returned);
+                $('#cod_usuario').val(returned.Cod_Usuario)
+                $('#exampleInputNome').val(returned.Nome);
+                $('#exampleInputPassword1').val(returned.Senha);
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro');
+            });
 
     }
 

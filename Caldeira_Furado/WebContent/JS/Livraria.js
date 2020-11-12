@@ -8,6 +8,7 @@ var url_base_hp = 'https://www.potterapi.com/v1';
 var bookslist = []
 var newslist = []
 var characterList = []
+var itensList =[]
 
 function manutencao() { alert("Ainda estamos trabalhando nessa função"); }
 
@@ -69,7 +70,8 @@ var livraria = function() {
             emailuser: "#emailbusca",
             nome_altera: "#nome_altera",
             password_altera: "#password_altera",
-            cod_usuario: "#cod_usuario"
+            cod_usuario: "#cod_usuario",
+            table_carrinho: "#table_body"
     
         };
     }
@@ -140,9 +142,7 @@ var livraria = function() {
     }
     var search_books = function() {
         var content = document.getElementById(controles().search_books).value;
-        var request = url_base + content + '&filter=partial&projection=lite&key=' + api_key;
-
-        console.log(request);
+        var request = url_base + content + '&filter=partial&projection=lite&key=' + api_key;     
 
         fetch(request)
             .then(function(response) {
@@ -150,8 +150,7 @@ var livraria = function() {
             })
             .then(function(data) {
                 clearList(controles().booksList);
-                bookslist = data.items;
-                // debugger;
+                bookslist = data.items;           
                 bookslist.forEach(list_books);
             }).catch(function(error) {
                 console.log('Request failed', error);
@@ -164,17 +163,24 @@ var livraria = function() {
         var bloco = document.createElement('div');
         bloco.className = "ocultar";
         div.appendChild(bloco);
+        var divId = document.createElement('div');        
+        divId.innerHTML = book.id;
+        divId.style.display = 'none';
+        divId.id = 'id_livro' + i;
+        bloco.appendChild(divId);        
         var img = document.createElement('img');
         img.src = book.volumeInfo.imageLinks.thumbnail
         bloco.appendChild(img);
         var h1 = document.createElement('h1');
         h1.innerHTML = book.volumeInfo.title
+        h1.id = "id_titulo" + i;
         bloco.appendChild(h1);
         var p = document.createElement('p');
         p.innerHTML = book.volumeInfo.description
         bloco.appendChild(p);
         var preco = document.createElement('span');
         preco.innerHTML = "R$ " + (Math.floor(Math.random() * (100 - 20)) + 20) + ",00";
+        preco.id = "id_valor"+ i;
         bloco.appendChild(preco);
         var d = document.createElement('button');
         d.className = "btn-menos";
@@ -188,7 +194,7 @@ var livraria = function() {
         bloco.appendChild(b);
         var c = document.createElement('button');
         c.className = "btn-comprar";
-        c.addEventListener('click', function() { alert("Ainda estamos trabalhando nessa função"); });
+        c.addEventListener('click', function(){livraria.adiciona_carrinho(i)});
         c.innerHTML = "COMPRAR"
         bloco.appendChild(c);
 
@@ -276,6 +282,46 @@ var livraria = function() {
 
     }
 
+    var adiciona_carrinho = function(numero){
+        debugger;
+        var livro = {
+            "id":"",
+            "titulo":"",
+            "valor":""
+        }
+
+        livro.id = $('#id_livro' + numero).text();
+        livro.titulo = $("#id_titulo" + numero).text();
+        livro.valor = $("#id_valor" + numero).text();
+
+        itensList.push(livro);
+    }
+
+    var remove_carrinho = function(numero){}
+
+    var lista_produtos = function(livro,i){
+        debugger;
+
+            $(controles().table_carrinho).innerHTML = "";
+            $(controles().table_carrinho)
+            .append( 
+                "<tr>" + 
+                "<td style='display:none'>" + livro.id+"</td>" +
+                "<td>" + livro.titulo+"</td>" +
+                "<td>" + livro.valor+"</td>"+ 
+                " <div class='quantidade'>"+
+                    "<button onclick='manutencao()'>+</button>"+
+                    "<label class='qtd'>1</label>" +
+                    "<button onclick='manutencao()'>-</button>" +
+                "</div>"+
+                "</tr>"                      
+            );
+
+    }
+    var monta_tabela_carrinho = function(){
+        
+        itensList.forEach(lista_produtos);
+    }
 
     var search_adress = function() {
 
@@ -306,6 +352,7 @@ var livraria = function() {
         var ul = document.getElementById(id_lista);
         ul.innerHTML = '';
     }
+    
 
     return {
         search_books: search_books,
@@ -315,7 +362,9 @@ var livraria = function() {
         search_adress: search_adress, 
         buscaUsuario: buscaUsuario,
         AlteraUsuario: AlteraUsuario,
-        DeletaUsuario: DeletaUsuario
+        DeletaUsuario: DeletaUsuario,
+        adiciona_carrinho: adiciona_carrinho,
+        monta_tabela_carrinho: monta_tabela_carrinho
     };
 
 }();

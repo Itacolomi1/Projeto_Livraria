@@ -59,16 +59,18 @@
             <img data-v-b1739aaa="" src="img/carrinho.png" alt="icon">
         </div>
         <div class="produtos">
-            <table>
+            <table id="tabela_carrinho">
                 <colgroup>
                     <col class="column1">
                     <col class="columns2plus3" span="2">
-                </colgroup>
+                </colgroup>             
                 <tr>
                     <th>Produto</th>
                     <th>Preço</th>
                     <th class="titulo-qtd">Quantidade</th>
                 </tr>
+
+                <tbody id="table_body">
                 <tr>
                     <td>Um Pouco Mais Sobre Harry Potter</td>
                     <td>R$ 60,00</td>
@@ -91,6 +93,7 @@
                         </div>
                     </td>
                 </tr>
+                </tbody>
                 <tr class="total">
                     <td>Total</td>
                     <td>R$ 98,00</td>
@@ -134,5 +137,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+<script> livraria.monta_tabela_carrinho(); alert("teste")</script>
+
 
 </html>

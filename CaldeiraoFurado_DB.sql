@@ -30,6 +30,7 @@ CREATE TABLE hp_db.vendas(
 
 CREATE TABLE hp_db.produtos(
 	cod_produto int auto_increment,
+    cod_livro varchar(255),
     descricao varchar(255),
     valor double,
     primary key(cod_produto)
@@ -42,4 +43,16 @@ CREATE TABLE hp_db.produtos_vendas(
     foreign key(cod_produto) references hp_db.produtos(cod_produto),
     foreign key(cod_venda) references hp_db.vendas(cod_venda) 
 
-)
+);
+
+CREATE VIEW hp_db.historico_compras AS
+	SELECT	pv.cod_produto,
+			pv.cod_venda,
+            v.cod_usuario,
+            p.descricao,
+            p.valor,
+            pv.quantidade,
+            v.data_venda		
+	FROM hp_db.produtos_vendas as pv
+	INNER JOIN hp_db.produtos as p ON p.cod_produto = pv.cod_produto
+    INNER JOIN hp_db.vendas as v ON v.cod_venda = pv.cod_venda

@@ -96,8 +96,7 @@ var livraria = function() {
 
     }
 
-    var AlteraUsuario = function(){
-        debugger;
+    var AlteraUsuario = function(){      
         var cod_usuario = $(controles().cod_usuario).val(); 
         var email = $(controles().emailuser).val();
         var nome = $(controles().nome_altera).val(); 

@@ -179,7 +179,7 @@ var livraria = function() {
         p.innerHTML = book.volumeInfo.description
         bloco.appendChild(p);
         var preco = document.createElement('span');
-        preco.innerHTML = "R$ " + (Math.floor(Math.random() * (100 - 20)) + 20) + ",00";
+        preco.innerHTML = "R$ " + (Math.floor(Math.random() * (100 - 20)) + 20) + ".00";
         preco.id = "id_valor"+ i;
         bloco.appendChild(preco);
         var d = document.createElement('button');
@@ -282,45 +282,91 @@ var livraria = function() {
 
     }
 
-    var adiciona_carrinho = function(numero){
-        debugger;
+    var adiciona_carrinho = function(numero){        
         var livro = {
             "id":"",
             "titulo":"",
             "valor":""
         }
-
         livro.id = $('#id_livro' + numero).text();
         livro.titulo = $("#id_titulo" + numero).text();
         livro.valor = $("#id_valor" + numero).text();
+        debugger;        
+        livro.valor = livro.valor.substring(livro.valor.indexOf("$")+2,livro.valor.length)
+        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?id_livro="+ livro.id +"&titulo=" + livro.titulo + "&valor=" + livro.valor + "&action=buy";      
 
-        itensList.push(livro);
+        $.ajax({
+            type:'get',
+            url: request    
+            
+        })
+            .done(function(returned) {                
+                alert("Produto adicionado com sucesso")
+            })
+            .fail(function(jqXHR) {
+                alert("Erro ao adicionar ao carrinho")
+            });
+    }
+
+    var load_carrinho = function(){
+        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?action=list"      
+
+        $.ajax({
+            type:'get',
+            url: request,
+            dataType:'json'    
+            
+        })
+            .done(function(returned) {
+                debugger;                
+                itensList = returned;
+                $(controles().table_carrinho).html("");
+                itensList.forEach(lista_produtos);
+
+            })
+            .fail(function(jqXHR) {
+                alert("Erro ao adicionar ao carrinho")
+            });
+
     }
 
     var remove_carrinho = function(numero){}
 
-    var lista_produtos = function(livro,i){
-        debugger;
-
-            $(controles().table_carrinho).innerHTML = "";
+    var lista_produtos = function(livro,i){        
+            livro.Quantidade = 1;
+           
             $(controles().table_carrinho)
             .append( 
                 "<tr>" + 
-                "<td style='display:none'>" + livro.id+"</td>" +
-                "<td>" + livro.titulo+"</td>" +
-                "<td>" + livro.valor+"</td>"+ 
-                " <div class='quantidade'>"+
+                "<td style='display:none'>" + livro.Cod_Livro+"</td>" +
+                "<td>" + livro.Descricao+"</td>" +
+                "<td>" + livro.Valor+"</td>"+ 
+                "<td> <div class='quantidade'>"+
                     "<button onclick='manutencao()'>+</button>"+
-                    "<label class='qtd'>1</label>" +
+                    "<label class='qtd'>" + livro.Quantidade +"</label>" +
                     "<button onclick='manutencao()'>-</button>" +
-                "</div>"+
+                "</div></td>"+
                 "</tr>"                      
             );
 
-    }
-    var monta_tabela_carrinho = function(){
-        
-        itensList.forEach(lista_produtos);
+    }  
+
+    var comprar_produtos = function(){
+        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?lista=" + itensList;      
+
+        $.ajax({
+            type:'post',
+            url: request            
+            
+        })
+            .done(function(returned) {
+                alert("A sua compra foi efetuada com sucesso")
+
+            })
+            .fail(function(jqXHR) {
+                alert("Erro ao realizar as compras")
+            });
+
     }
 
     var search_adress = function() {
@@ -363,8 +409,8 @@ var livraria = function() {
         buscaUsuario: buscaUsuario,
         AlteraUsuario: AlteraUsuario,
         DeletaUsuario: DeletaUsuario,
-        adiciona_carrinho: adiciona_carrinho,
-        monta_tabela_carrinho: monta_tabela_carrinho
+        adiciona_carrinho: adiciona_carrinho ,
+        load_carrinho: load_carrinho     
     };
 
 }();

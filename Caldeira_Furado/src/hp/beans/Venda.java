@@ -33,7 +33,7 @@ public class Venda {
 	public float getTotal() {
 		return this.Total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(float total) {
 		this.Total = total;
 	}
 }

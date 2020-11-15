@@ -68,10 +68,16 @@ public class Produto_VendaDao implements Dao<Produto_Venda>{
 		return null;
 	}
 	
-	public Historico_Compra_Usuario preencheHistorico(ResultSet rs) {		
+	public Historico_Compra_Usuario preencheHistorico(ResultSet rs) throws SQLException {		
 		Historico_Compra_Usuario historico = new Historico_Compra_Usuario();
 		
-		
+		historico.setCod_Produto(rs.getInt("cod_produto"));
+		historico.setCod_Venda(rs.getInt("cod_venda"));
+		historico.setCod_Usuario(rs.getInt("cod_usuario"));
+		historico.setDescricao(rs.getString("descricao"));
+		historico.setValor(rs.getInt("cod_usuario"));
+		historico.setQuantidade(rs.getInt("quantidade"));
+		historico.setData_Venda(rs.getDate("data_venda"));
 		
 		return historico;
 	}

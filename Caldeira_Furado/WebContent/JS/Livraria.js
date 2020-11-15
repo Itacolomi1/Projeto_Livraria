@@ -359,7 +359,8 @@ var livraria = function() {
                 "<td> <div class='quantidade'>"+
                     "<button onclick='manutencao()'>+</button>"+
                     "<label class='qtd'>" + livro.Quantidade +"</label>" +
-                    "<button onclick='livraria.remove_carrinho("+ livro.Cod_Livro +")'>-</button>" +
+                    "<button onclick='manutencao()'>-</button>" +
+                    "<button class= 'apagar' onclick='livraria.remove_carrinho("+ livro.Cod_Livro +")'>Excluir</button>" +
                 "</div></td>"+
                 "</tr>"                      
             );

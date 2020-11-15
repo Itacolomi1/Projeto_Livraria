@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import hp.beans.Historico_Compra_Usuario;
 import hp.beans.Produto;
 import hp.beans.Produto_Venda;
 import hp.beans.Usuario;
@@ -76,6 +77,8 @@ public class LivrariaApi extends HttpServlet {
 						
 		}else if(action.equals("list")) {
 			doGet_list(request,response);			
+		}else if(action.equals("list_historico")) {
+			doGet_list_historico(request,response);
 		}else {				
 			doGet_remove(request,response);
 			response.getWriter().print(gson.toJson("Livro removido com sucesso. Recarregue a página"));
@@ -121,6 +124,23 @@ public class LivrariaApi extends HttpServlet {
 		
 	}
 	
+	protected void doGet_list_historico(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");	
+		
+		Usuario usuario = new Usuario();
+		usuario.setCod_Usuario(1);
+		
+		Produto_VendaDao pv_dao = new Produto_VendaDao();
+		ArrayList<Historico_Compra_Usuario> retorno = pv_dao.comprarUsuario(usuario);
+		
+		Gson gson = new Gson();	
+		response.getWriter().print(gson.toJson(retorno));
+		response.getWriter().flush();	
+		
+	}
+	
 	private int isExisting(String id, List<Produto> produtos) {
 		
 		for (int i = 0; i < produtos.size(); i++) {
@@ -130,18 +150,11 @@ public class LivrariaApi extends HttpServlet {
 		}
 		
 		return -1;
-	}
+	}	
 	
-	/*private Produto findLivro(String id) {
-		
-		Produto produto = new Produto();
-		
-		for(Produto item : produtos) {
-			
-			if(item.getCod_Livro())
-		}
-		
-	}*/
+	
+	
+	
 	
 	
 
@@ -163,8 +176,9 @@ public class LivrariaApi extends HttpServlet {
 		
 		//inserir produtos e produto_venda
 		for (Produto item : produtos) {
-			
+				
 			 id_produto = produtoDao.insert_id(item);
+			 item.setQuantidade(1);
 			 
 			 Produto_Venda produto_venda = new Produto_Venda();
 			 produto_venda.setCod_Produto(id_produto);

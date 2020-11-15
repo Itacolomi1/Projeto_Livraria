@@ -1,5 +1,5 @@
 
-
+var itensList =[]
 
 function manutencao() { alert("Ainda estamos trabalhando nessa função"); }
 
@@ -63,7 +63,8 @@ var forum = function() {
             password_altera: "#password_altera",
             cod_usuario: "#cod_usuario",
             table_carrinho: "#table_body",
-            descricaoTopico: "#descricaoTopico"
+            descricaoTopico: "#descricaoTopico",
+            lista_Topicos: "#listatopicos"
     
         };
     }
@@ -87,28 +88,47 @@ var forum = function() {
 
     }
 
-    var buscaTopico = function() {
+    var carregaTopico = function() {       
        
-       // var email = $(controles().emailuser).val();
-        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi";      
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI";      
 
         $.ajax({
             type:'get',
-            url: request,            
-            dataType:'json',
+            url: request,
+            dataType:'json'    
+            
         })
-            .done(function(returned) {                
-                console.log(returned);
-                $(controles().cod_usuario).val(returned.Cod_Usuario)
-                $(controles().nome_altera).val(returned.Nome);
-                $(controles().password_altera).val(returned.Senha);
+            .done(function(returned) {
+                debugger;                
+                itensList = returned;
+                $(controles().lista_Topicos).html("");
+                itensList.forEach(lista_topic);
+
             })
             .fail(function(jqXHR) {
-                console.log('Erro');
+                alert("Erro ao adicionar ao carrinho")
             });
-
     }
 
+    var lista_topic = function(topico,i){        
+               
+        $(controles().lista_Topicos)
+        .append( 
+
+            "<div class='topico'>"+
+            "<div style='display:none'>" + topico.Cod_Filho+"</div>"+
+            "<p>"+topico.Descricao + "</p>"+
+            "<div class='respostas'>"+
+                 //LINHA COMENTÁRIO
+            "</div>"+
+           "<div class='perguntar'>"+
+                "<input class='form-control mr-sm-2' type='search' placeholder='escreva um comentário' aria-label='comentario'>"+
+                "<button onclick='manutencao()' class='btn btn-outline-success my-2 my-sm-0' type='button'>Publicar</button>"+
+            "</div>"+
+         "</div>"
+        );        
+
+}  
 
 
     var DeletaUsuario = function(){
@@ -132,7 +152,8 @@ var forum = function() {
 
 
     return {     
-        inserirTopico: inserirTopico         
+        inserirTopico: inserirTopico,
+        carregaTopico:carregaTopico        
     };
 
 }();

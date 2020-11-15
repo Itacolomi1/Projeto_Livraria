@@ -91,12 +91,6 @@ private Connection connection;
 		
 		return retorno;
 	}
-	public Forum preencheForum(ResultSet rs) {	
-		Forum historico = new Forum();	
-		
-		
-		return historico;
-	}
 
 
 	@Override

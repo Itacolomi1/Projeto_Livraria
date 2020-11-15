@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="img/favicon.ico" />
 </head>
 
-<body>
+<body onload="forum.carregaTopico()">
     <nav class="navbar navbar-light justify-content-between">
         <a class="navbar-brand" href="index.html">
             <img id="logo" src="img/logo.png" class="lazy" title="Download ícone Harry, Potter, Hogwarts, Escudo  Livre" alt="ícone Harry, Potter, Hogwarts, Escudo">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="perguntar">
                     <input class="form-control mr-sm-2" type="search" placeholder="escreva um comentário" aria-label="comentario">
-                    <button onclick="manutencao()" class="btn btn-outline-success my-2 my-sm-0" type="submit">publicar</button>
+                    <button onclick="manutencao()" class="btn btn-outline-success my-2 my-sm-0" type="button">Publicar</button>
                 </div>
             </div>
         </div>

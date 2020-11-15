@@ -59,13 +59,27 @@ public class LivrariaApi extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
+		String id_livro = request.getParameter("id_livro");
+		Gson gson = new Gson();	
+	
 		
-		if(action.equals("buy")) {					
-			doGet_buy(request,response);			
+		if(action.equals("buy")) {
+			int exist = isExisting(id_livro,produtos);
+			if(exist != -1) {
+				response.getWriter().print(gson.toJson("Livro já foi adicionado"));
+				response.getWriter().flush();				
+			}else {				
+				doGet_buy(request,response);
+				response.getWriter().print(gson.toJson("Livro adicionado com sucesso!"));
+				response.getWriter().flush();	
+			}
+						
 		}else if(action.equals("list")) {
 			doGet_list(request,response);			
 		}else {				
-			doGet_remove(request,response);			
+			doGet_remove(request,response);
+			response.getWriter().print(gson.toJson("Livro removido com sucesso. Recarregue a página"));
+			response.getWriter().flush();	
 		}			
 
 
@@ -80,23 +94,18 @@ public class LivrariaApi extends HttpServlet {
 		produto.setCod_Livro(request.getParameter("id_livro"));
 		produto.setDescricao(request.getParameter("titulo"));
 		produto.setValor(Float.parseFloat(request.getParameter("valor")));			
-		produtos.add(produto);
-		response.getWriter().append("foi adicionado");
-	
-		
-		
+		produtos.add(produto);			
 		
 	}
 	
 	protected void doGet_remove(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//request.setCharacterEncoding("UTF-8");
-		//response.setCharacterEncoding("UTF-8");
-		//response.setContentType("application/json");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		
-		//Gson gson = new Gson();
-		//response.getWriter().print(gson.toJson(produtos));
-		//response.getWriter().flush();
+		String id_livro = request.getParameter("id_livro");
+		Produto livro = produtos.stream().filter(x->x.getCod_Livro().equals(id_livro)).findFirst().get();		
+		produtos.remove(livro);
 		
 	}
 	
@@ -123,7 +132,16 @@ public class LivrariaApi extends HttpServlet {
 		return -1;
 	}
 	
-	
+	/*private Produto findLivro(String id) {
+		
+		Produto produto = new Produto();
+		
+		for(Produto item : produtos) {
+			
+			if(item.getCod_Livro())
+		}
+		
+	}*/
 	
 	
 

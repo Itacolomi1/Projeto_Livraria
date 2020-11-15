@@ -292,7 +292,7 @@ var livraria = function() {
         livro.id = $('#id_livro' + numero).text();
         livro.titulo = $("#id_titulo" + numero).text();
         livro.valor = $("#id_valor" + numero).text();
-        debugger;        
+             
         livro.valor = livro.valor.substring(livro.valor.indexOf("$")+2,livro.valor.length)
         request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?id_livro="+ livro.id +"&titulo=" + livro.titulo + "&valor=" + livro.valor + "&action=buy";      
 
@@ -301,8 +301,9 @@ var livraria = function() {
             url: request    
             
         })
-            .done(function(returned) {                
-                alert("Produto adicionado com sucesso")
+            .done(function(returned) { 
+                debugger;               
+                alert(returned);
             })
             .fail(function(jqXHR) {
                 alert("Erro ao adicionar ao carrinho")
@@ -318,12 +319,10 @@ var livraria = function() {
             dataType:'json'    
             
         })
-            .done(function(returned) {
-                debugger;                
+            .done(function(returned) {                
                 itensList = returned;
                 $(controles().table_carrinho).html("");
                 itensList.forEach(lista_produtos);
-
             })
             .fail(function(jqXHR) {
                 alert("Erro ao adicionar ao carrinho")
@@ -331,11 +330,26 @@ var livraria = function() {
 
     }
 
-    var remove_carrinho = function(numero){}
+    var remove_carrinho = function(numero){
+      
+        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?action=delete&id_livro=" + numero;      
+
+        $.ajax({
+            type:'get',
+            url: request           
+        })
+            .done(function(returned) { 
+                alert(returned);
+            })
+            .fail(function(jqXHR) {
+                alert("Erro ao adicionar ao carrinho")
+            });
+
+    }
 
     var lista_produtos = function(livro,i){        
             livro.Quantidade = 1;
-           
+            livro.Cod_Livro = '"' + livro.Cod_Livro + '"';
             $(controles().table_carrinho)
             .append( 
                 "<tr>" + 
@@ -345,7 +359,7 @@ var livraria = function() {
                 "<td> <div class='quantidade'>"+
                     "<button onclick='manutencao()'>+</button>"+
                     "<label class='qtd'>" + livro.Quantidade +"</label>" +
-                    "<button onclick='manutencao()'>-</button>" +
+                    "<button onclick='livraria.remove_carrinho("+ livro.Cod_Livro +")'>-</button>" +
                 "</div></td>"+
                 "</tr>"                      
             );
@@ -412,7 +426,8 @@ var livraria = function() {
         DeletaUsuario: DeletaUsuario,
         adiciona_carrinho: adiciona_carrinho,
         load_carrinho: load_carrinho,           
-        comprar_produtos: comprar_produtos          
+        comprar_produtos: comprar_produtos,
+        remove_carrinho: remove_carrinho          
     };
 
 }();

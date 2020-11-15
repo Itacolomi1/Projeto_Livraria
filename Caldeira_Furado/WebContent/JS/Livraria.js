@@ -71,9 +71,29 @@ var livraria = function() {
             nome_altera: "#nome_altera",
             password_altera: "#password_altera",
             cod_usuario: "#cod_usuario",
-            table_carrinho: "#table_body"
+            table_carrinho: "#table_body",
+            descricaoTopico: "#descricaoTopico"
     
         };
+    }
+
+    var inserirTopico = function() {  
+
+        var descricao= $("#descricaoTopico").val();    
+        
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=topico&desctopico="+ descricao;      
+
+        $.ajax({
+            type:'post',
+            url: request
+        })
+            .done(function(returned) {                
+                alert("Tópico inserido com sucesso");
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro');
+            });
+
     }
 
     var buscaUsuario = function() {
@@ -410,7 +430,8 @@ var livraria = function() {
         AlteraUsuario: AlteraUsuario,
         DeletaUsuario: DeletaUsuario,
         adiciona_carrinho: adiciona_carrinho ,
-        load_carrinho: load_carrinho     
+        load_carrinho: load_carrinho  ,
+        inserirTopico: inserirTopico   
     };
 
 }();

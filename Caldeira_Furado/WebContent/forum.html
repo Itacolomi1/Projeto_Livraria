@@ -3,8 +3,8 @@
 
 <head>
     <title>Caldeirão furado</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="JS/jquery.min.js"></script>
+    
+    
     <script src="JS/Livraria.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -19,8 +19,8 @@
             <p>Caldeirao Furado</p>
         </a>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Escreva um tópico" aria-label="Escreva um tópico">
-            <button onclick="manutencao()" class="btn btn-outline-success my-2 my-sm-0" type="submit">publicar</button>
+            <input id="descricaoTopico"  class="form-control mr-sm-2" type="search" placeholder="Escreva um tópico" aria-label="Escreva um tópico">
+            <button onclick="livraria.inserirTopico()" class="btn btn-outline-success my-2 my-sm-0" type="button">Publicar</button>
         </form>
         <div class="btn-group" role="group" aria-label="...">
             <a href="forum.html">
@@ -97,6 +97,7 @@
 
         </div>
     </footer>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

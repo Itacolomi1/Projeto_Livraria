@@ -2,6 +2,7 @@ package hp.wepapi;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletConfig;
@@ -10,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import hp.beans.Forum;
 import hp.beans.Usuario;
@@ -50,7 +53,26 @@ public class ForumAPI extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub		
-		response.getWriter().append("teste api forum");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		Forum forum = new Forum();
+		
+		
+		Gson gson = new Gson();
+		ArrayList<Forum> topic = new ArrayList<Forum>();
+		ForumDao dao = new ForumDao();
+		topic = dao.findAll(forum);
+		
+		if(topic != null) {
+			response.getWriter().print(gson.toJson(topic));
+			response.getWriter().flush();
+		}
+		//else {
+
+			
+			
+		//}
 	}
 
 	/**

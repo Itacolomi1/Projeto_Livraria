@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import hp.beans.Forum;
+import hp.beans.Historico_Compra_Usuario;
+import hp.beans.Usuario;
 import hp.helpers.Helpers;
 
 public class ForumDao implements Dao <Forum> {
@@ -29,11 +31,12 @@ private Connection connection;
 		// TODO Auto-generated method stub
 		try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO hp_db.forum (cod_filho, descricao, cod_usuario, data_post) VALUES (0, ?, ?, now())");
+                    .prepareStatement("INSERT INTO hp_db.forum (cod_filho, descricao, cod_pai, cod_usuario, data_post) VALUES (0, ?, ?, ?, now())");
             
             // Parameters start with 1
-            preparedStatement.setString(1,forum.getDescricao());            
-            preparedStatement.setString(2,Integer.toString(forum.getCod_Usuario()));               
+            preparedStatement.setString(1,forum.getDescricao());
+            preparedStatement.setString(2,Integer.toString(0));
+            preparedStatement.setString(3,Integer.toString(forum.getCod_Usuario()));               
             
             preparedStatement.executeUpdate();
 
@@ -64,14 +67,50 @@ private Connection connection;
 
 	@Override
 	public ArrayList<Forum> findAll(Forum forum) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Forum>  retorno = new ArrayList<Forum>();
+				
+		try {
+			PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT * FROM hp_db.forum WHERE cod_pai = 0",ResultSet.TYPE_SCROLL_SENSITIVE, 
+                            ResultSet.CONCUR_UPDATABLE);
+			
+			
+			ResultSet rs = preparedStatement.executeQuery();
+		while(rs.next()) {	
+				Forum historico = new Forum();
+				historico = preencherEntidade(rs);
+				retorno.add(historico);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			
+		}
+		
+		
+		return retorno;
 	}
+	public Forum preencheForum(ResultSet rs) {	
+		Forum historico = new Forum();	
+		
+		
+		return historico;
+	}
+
 
 	@Override
 	public Forum preencherEntidade(ResultSet rs) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+        Forum forum = new Forum();
+		
+		forum.setCod_Filho(rs.getInt("cod_filho"));
+		forum.setDescricao(rs.getString("descricao"));
+		forum.setCod_Pai(rs.getInt("cod_pai"));
+		forum.setCod_Usuario(rs.getInt("cod_usuario"));
+		forum.setData(rs.getDate("data_post"));		
+		
+		return forum;
 	}
 
 }

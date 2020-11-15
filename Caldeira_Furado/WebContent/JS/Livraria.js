@@ -96,6 +96,29 @@ var livraria = function() {
 
     }
 
+    var buscaTopico = function() {
+       
+       // var email = $(controles().emailuser).val();
+        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi";      
+
+        $.ajax({
+            type:'get',
+            url: request,            
+            dataType:'json',
+        })
+            .done(function(returned) {                
+                console.log(returned);
+                $(controles().cod_usuario).val(returned.Cod_Usuario)
+                $(controles().nome_altera).val(returned.Nome);
+                $(controles().password_altera).val(returned.Senha);
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro');
+            });
+
+    }
+
+
     var buscaUsuario = function() {
        
         var email = $(controles().emailuser).val();

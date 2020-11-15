@@ -77,48 +77,6 @@ var livraria = function() {
         };
     }
 
-    var inserirTopico = function() {  
-
-        var descricao= $("#descricaoTopico").val();    
-        
-        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=topico&desctopico="+ descricao;      
-
-        $.ajax({
-            type:'post',
-            url: request
-        })
-            .done(function(returned) {                
-                alert("Tópico inserido com sucesso");
-            })
-            .fail(function(jqXHR) {
-                console.log('Erro');
-            });
-
-    }
-
-    var buscaTopico = function() {
-       
-       // var email = $(controles().emailuser).val();
-        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi";      
-
-        $.ajax({
-            type:'get',
-            url: request,            
-            dataType:'json',
-        })
-            .done(function(returned) {                
-                console.log(returned);
-                $(controles().cod_usuario).val(returned.Cod_Usuario)
-                $(controles().nome_altera).val(returned.Nome);
-                $(controles().password_altera).val(returned.Senha);
-            })
-            .fail(function(jqXHR) {
-                console.log('Erro');
-            });
-
-    }
-
-
     var buscaUsuario = function() {
        
         var email = $(controles().emailuser).val();
@@ -452,12 +410,9 @@ var livraria = function() {
         buscaUsuario: buscaUsuario,
         AlteraUsuario: AlteraUsuario,
         DeletaUsuario: DeletaUsuario,
-        adiciona_carrinho: adiciona_carrinho ,
-        load_carrinho: load_carrinho  ,
-        inserirTopico: inserirTopico ,
-        load_carrinho: load_carrinho,
-        comprar_produtos: comprar_produtos
-          
+        adiciona_carrinho: adiciona_carrinho,
+        load_carrinho: load_carrinho,           
+        comprar_produtos: comprar_produtos          
     };
 
 }();

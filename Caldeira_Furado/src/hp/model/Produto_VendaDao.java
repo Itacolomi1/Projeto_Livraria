@@ -77,8 +77,8 @@ public class Produto_VendaDao implements Dao<Produto_Venda>{
 	}
 	
 	public ArrayList<Historico_Compra_Usuario> comprarUsuario(Usuario usuario){
-		ArrayList<Historico_Compra_Usuario>  retorno = null;
-		Historico_Compra_Usuario historico = null;
+		ArrayList<Historico_Compra_Usuario>  retorno = new ArrayList<Historico_Compra_Usuario>();
+		
 		
 		try {
 			PreparedStatement preparedStatement = connection
@@ -88,7 +88,8 @@ public class Produto_VendaDao implements Dao<Produto_Venda>{
 			preparedStatement.setString(1,  Integer.toString(usuario.getCod_Usuario()));
 			
 			ResultSet rs = preparedStatement.executeQuery();
-			if(rs.next()) {				
+			while(rs.next()) {	
+				Historico_Compra_Usuario historico = new Historico_Compra_Usuario(); 
 				historico = preencheHistorico(rs);
 				retorno.add(historico);
 			}

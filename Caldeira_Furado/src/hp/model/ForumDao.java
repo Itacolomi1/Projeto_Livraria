@@ -24,6 +24,21 @@ private Connection connection;
 	@Override
 	public void insert(Forum forum) {
 		// TODO Auto-generated method stub
+		try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("INSERT INTO hp_db.forum (cod_filho, descricao, cod_pai, cod_usuario, data_post) VALUES (0, ?, ?, ?, now())");
+            
+            // Parameters start with 1
+            preparedStatement.setString(1,forum.getDescricao());
+            preparedStatement.setString(2,Integer.toString(forum.getCod_Pai()));
+            preparedStatement.setString(3,Integer.toString(forum.getCod_Usuario()));               
+            
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
 
 		
 	}
@@ -72,8 +87,8 @@ private Connection connection;
 		try {
 			PreparedStatement preparedStatement = connection
                     .prepareStatement("SELECT * FROM hp_db.forum WHERE cod_pai = 0",ResultSet.TYPE_SCROLL_SENSITIVE, 
-                            ResultSet.CONCUR_UPDATABLE);
-			
+                            ResultSet.CONCUR_UPDATABLE);		
+				
 			
 			ResultSet rs = preparedStatement.executeQuery();
 		while(rs.next()) {	
@@ -91,7 +106,33 @@ private Connection connection;
 		
 		return retorno;
 	}
-
+	public ArrayList<Forum> findComents(Forum forum) {
+		
+		ArrayList<Forum>  retorno = new ArrayList<Forum>();
+				
+		try {
+			PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT * FROM hp_db.forum WHERE cod_pai = ?",ResultSet.TYPE_SCROLL_SENSITIVE, 
+                            ResultSet.CONCUR_UPDATABLE);
+			
+			preparedStatement.setString(1, Integer.toString(forum.getCod_Filho()));	
+			ResultSet rs = preparedStatement.executeQuery();
+			
+		while(rs.next()) {	
+				Forum historico = new Forum();
+				historico = preencherEntidade(rs);
+				retorno.add(historico);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			
+		}
+		
+		
+		return retorno;
+	}
 
 	@Override
 	public Forum preencherEntidade(ResultSet rs) throws SQLException {

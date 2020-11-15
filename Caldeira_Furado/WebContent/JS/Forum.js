@@ -63,8 +63,9 @@ var forum = function() {
             password_altera: "#password_altera",
             cod_usuario: "#cod_usuario",
             table_carrinho: "#table_body",
-            descricaoTopico: "#descricaoTopico",
-            lista_Topicos: "#listatopicos"
+            descricaoComentario: "#descricaoComentario",
+            lista_Topicos: "#listatopicos",
+            lista_Comentarios:"#listacomentariosmaster"
     
         };
     }
@@ -80,7 +81,27 @@ var forum = function() {
             url: request
         })
             .done(function(returned) {                
-                alert("Tópico inserido com sucesso");
+                alert("Tópico inserido com sucesso. Recarregue a página");
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro');
+            });
+
+    }
+
+    var inserirComentario = function(codigo) {  
+
+        var descricao= $(controles().descricaoComentario).val();
+    
+        
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=coment&desctopico="+ descricao +"&idTopico="+ codigo;      
+
+        $.ajax({
+            type:'post',
+            url: request
+        })s
+            .done(function(returned) {                
+                alert("Comentário inserido com sucesso");
             })
             .fail(function(jqXHR) {
                 console.log('Erro');
@@ -106,7 +127,29 @@ var forum = function() {
 
             })
             .fail(function(jqXHR) {
-                alert("Erro ao adicionar ao carrinho")
+                alert("Erro ao carregar tópico")
+            });
+    }
+
+    var carregaComentario = function() {       
+       
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=list";      
+
+        $.ajax({
+            type:'get',
+            url: request,
+            dataType:'json'    
+            
+        })
+            .done(function(returned) {
+                debugger;                
+                itensList = returned;
+                $(controles().lista_Comentarios).html("");
+                itensList.forEach(lista_coment);
+
+            })
+            .fail(function(jqXHR) {
+                alert("Erro ao carregar comentário")
             });
     }
 
@@ -115,21 +158,32 @@ var forum = function() {
         $(controles().lista_Topicos)
         .append( 
 
-            "<div class='topico'>"+
+            "<div onclick='forum.carregaComentario()' class='topico'>"+
             "<div style='display:none'>" + topico.Cod_Filho+"</div>"+
             "<p>"+topico.Descricao + "</p>"+
-            "<div class='respostas'>"+
-                 //LINHA COMENTÁRIO
+            "<div id='listacomentariosmaster' >"+
+             //LINHAS COMENTÁRIO                 
             "</div>"+
            "<div class='perguntar'>"+
-                "<input class='form-control mr-sm-2' type='search' placeholder='escreva um comentário' aria-label='comentario'>"+
-                "<button onclick='manutencao()' class='btn btn-outline-success my-2 my-sm-0' type='button'>Publicar</button>"+
+                "<input id='descricaoComentario'" + "class='form-control mr-sm-2' type='search' placeholder='escreva um comentário' aria-label='comentario'>"+
+                "<button onclick='forum.inserirComentario("+ topico.Cod_Filho + ")'" + " class='btn btn-outline-success my-2 my-sm-0' type='button'>Publicar</button>"+
             "</div>"+
-         "</div>"
+            "</div>"
         );        
+            
 
-}  
+    }  
 
+    var lista_coment = function(topico,i){        
+                
+        $(controles().lista_Comentarios)
+        .append(     
+            "<div class='respostas'>"+
+            "<p>"+topico.Descricao + "</p>"+//LINHA COMENTÁRIO
+            "</div>"                             
+        
+        );  
+    }
 
     var DeletaUsuario = function(){
         var cod_usuario = $(controles().cod_usuario).val();              
@@ -153,7 +207,9 @@ var forum = function() {
 
     return {     
         inserirTopico: inserirTopico,
-        carregaTopico:carregaTopico        
+        carregaTopico:carregaTopico,
+        inserirComentario:inserirComentario,
+        carregaComentario:carregaComentario      
     };
 
 }();

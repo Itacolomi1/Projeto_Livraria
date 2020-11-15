@@ -56,9 +56,10 @@ public class ForumAPI extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
-		Forum forum = new Forum();
+		String action= request.getParameter("action");
+		String id = request.getParameter("idTopico");
 		
-		
+		Forum forum = new Forum();			
 		Gson gson = new Gson();
 		ArrayList<Forum> topic = new ArrayList<Forum>();
 		ForumDao dao = new ForumDao();
@@ -68,11 +69,22 @@ public class ForumAPI extends HttpServlet {
 			response.getWriter().print(gson.toJson(topic));
 			response.getWriter().flush();
 		}
-		//else {
-
+		
+		if(action !=null && id != null && action.equals("list")) {
+			Forum forum2 = new Forum();		
+			forum2.setCod_Pai(Integer.parseInt(id));	
 			
+			Gson gson2 = new Gson();
+			ArrayList<Forum> coment = new ArrayList<Forum>();
+			ForumDao dao2 = new ForumDao();
+			coment = dao2.findComents(forum2);
 			
-		//}
+			if(topic != null) {
+				response.getWriter().print(gson2.toJson(coment));
+				response.getWriter().flush();
+			}
+		}
+	
 	}
 
 	/**
@@ -82,33 +94,33 @@ public class ForumAPI extends HttpServlet {
 		
 				
 		String action= request.getParameter("action");
+		String idTopico = request.getParameter("idTopico");
 			
 		if(action.equals("topico"))
 		{
-			Forum forum = new Forum();	
-			
+			Forum forum = new Forum();				
 					
 			forum.setCod_Filho(0);
 			forum.setDescricao(request.getParameter("desctopico"));
 			forum.setCod_Pai(0);
-			forum.setCod_Usuario(1);		
+			forum.setCod_Usuario(1);	//pegar usuário	
 			
 			ForumDao dao = new ForumDao();
 			dao.insertTopico(forum);
 		}
-		/*else
+		else if(action.equals("coment"))
 		{
 			Forum forum = new Forum();				
 			
 			forum.setCod_Filho(0);
 			forum.setDescricao(request.getParameter("desctopico"));
-			forum.setCod_Pai(0);
+			forum.setCod_Pai(Integer.parseInt(idTopico));
 			forum.setCod_Usuario(1);		
 			
 			ForumDao dao = new ForumDao();
 			dao.insert(forum);
 		}
-		*/
+		
 		}
 
 	/**

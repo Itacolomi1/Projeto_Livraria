@@ -490,7 +490,7 @@ body .dropdown-menu {
     bottom: auto;
 }
 
-#carrinho table .quantidade::after {
+#carrinho table .apagar {
     content: url('../img/lixo.svg');
     margin-bottom: 0;
     right: 2px;
@@ -499,6 +499,7 @@ body .dropdown-menu {
     position: absolute;
     height: 30px;
     bottom: auto;
+    background: none !important;
 }
 
 .noticias .conteudo-noticia {

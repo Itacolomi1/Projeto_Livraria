@@ -15,8 +15,11 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import hp.beans.Produto;
+import hp.beans.Produto_Venda;
 import hp.beans.Usuario;
 import hp.beans.Venda;
+import hp.model.ProdutoDao;
+import hp.model.Produto_VendaDao;
 import hp.model.UsuarioDao;
 import hp.model.VendaDao;
 
@@ -129,17 +132,31 @@ public class LivrariaApi extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		ProdutoDao produtoDao = new ProdutoDao();		
+		VendaDao vendaDao = new VendaDao();	
+		Produto_VendaDao pv_dao = new Produto_VendaDao();
 		//inserir primeiro a venda
-		VendaDao vendaDao = new VendaDao();		
-		//setando código usuário temporariamente
+		
 		Venda venda = new Venda();
-		venda.setCod_Usuario(1);
+		venda.setCod_Usuario(1);  //setando código usuário temporariamente
 		venda.setTotal(MaximoVenda(produtos));
-		vendaDao.insert(venda);
+		int id_venda = vendaDao.insert_id(venda);
+		int id_produto =0;
 		
-		
-		
+		//inserir produtos e produto_venda
+		for (Produto item : produtos) {
+			
+			 id_produto = produtoDao.insert_id(item);
+			 
+			 Produto_Venda produto_venda = new Produto_Venda();
+			 produto_venda.setCod_Produto(id_produto);
+			 produto_venda.setCod_Venda(id_venda);
+			 produto_venda.setQuantidade(item.getQuantidade());
+			 
+			 pv_dao.insert(produto_venda);		 
+		 		    
+		}
+			
 		
 		
 	}

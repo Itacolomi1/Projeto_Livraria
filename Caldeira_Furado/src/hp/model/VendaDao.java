@@ -26,12 +26,12 @@ public class VendaDao implements Dao<Venda> {
 		
 		try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO hp_db.vendas (cod_usuario, data_venda, total) VALUES (?, ?, ?)");
+                    .prepareStatement("INSERT INTO hp_db.vendas (cod_venda,cod_usuario, data_venda, total) VALUES (0,?, now(), ?)");
             
             // Parameters start with 1
             preparedStatement.setString(1,Integer.toString(venda.getCod_Usuario()));
-            preparedStatement.setString(2,Helpers.DateToString(venda.getData_Venda()));
-            preparedStatement.setString(3, Float.toString(venda.getTotal()));     
+            //preparedStatement.setString(2,Helpers.DateToString(venda.getData_Venda()));
+            preparedStatement.setString(2, Float.toString(venda.getTotal()));     
             
             preparedStatement.executeUpdate();
 
@@ -39,6 +39,30 @@ public class VendaDao implements Dao<Venda> {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
+	}	
+	
+	public int insert_id(Venda venda) {
+		// TODO Auto-generated method stub
+		 int retorno =0;
+		try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("INSERT INTO hp_db.vendas (cod_venda,cod_usuario, data_venda, total) VALUES (0,?, now(), ?)");
+            
+            // Parameters start with 1
+            preparedStatement.setString(1,Integer.toString(venda.getCod_Usuario()));
+            //preparedStatement.setString(2,Helpers.DateToString(venda.getData_Venda()));
+            preparedStatement.setString(2, Float.toString(venda.getTotal()));    
+            
+            preparedStatement.executeUpdate();
+            
+            retorno = getlastId();
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+		return retorno;
 	}
 
 	@Override
@@ -69,6 +93,26 @@ public class VendaDao implements Dao<Venda> {
 	public Venda preencherEntidade(ResultSet rs) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private int getlastId() {
+		int id = 0;
+		try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("select max(cod_venda) as id from hp_db.vendas",ResultSet.TYPE_SCROLL_SENSITIVE, 
+                            ResultSet.CONCUR_UPDATABLE);        
+            
+            ResultSet rs = preparedStatement.executeQuery();
+			if(rs.first()) {				
+				id = rs.getInt("id");
+			}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+		return id;
+		
 	}
 
 }

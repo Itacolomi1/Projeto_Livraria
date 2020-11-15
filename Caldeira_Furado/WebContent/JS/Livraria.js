@@ -372,7 +372,7 @@ var livraria = function() {
     }  
 
     var comprar_produtos = function(){
-        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?lista=" + itensList;      
+        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi";      
 
         $.ajax({
             type:'post',
@@ -431,7 +431,10 @@ var livraria = function() {
         DeletaUsuario: DeletaUsuario,
         adiciona_carrinho: adiciona_carrinho ,
         load_carrinho: load_carrinho  ,
-        inserirTopico: inserirTopico   
+        inserirTopico: inserirTopico ,
+        load_carrinho: load_carrinho,
+        comprar_produtos: comprar_produtos
+          
     };
 
 }();

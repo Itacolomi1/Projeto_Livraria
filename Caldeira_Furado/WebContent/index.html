@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <title>Caldeir�o furado</title>  
+    <title>Caldeirao furado</title>  
+    <meta charset="UTF-8">
     <script src="JS/Livraria.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -23,7 +24,7 @@
             <button class="btn btn-outline-success my-2 my-sm-0" onclick="livraria.search_books()">Buscar</button>
         </div>
         <div class="btn-group" role="group" aria-label="...">
-            <a href="forum.html">
+            <a onclick="livraria.ValidaUsuarioForum()">
                 <img data-v-b1739aaa="" src="img/forum.svg" alt="icon" width="172" height="172">
             </a>
             <div class="btn-group" role="group">
@@ -52,7 +53,7 @@
 
             <div data-v-b1739aaa="" class="left-side-workspace icon-carrinho">
                 <div data-v-b1739aaa="" class="icon-carrinho">
-                    <a href="carrinho.html"><img data-v-b1739aaa="" src="img/carrinho.svg" alt="icon"></a>
+                    <a onclick="livraria.ValidaUsuarioCarrinho()"><img data-v-b1739aaa="" src="img/carrinho.svg" alt="icon"></a>
                 </div>
             </div>
         </div>

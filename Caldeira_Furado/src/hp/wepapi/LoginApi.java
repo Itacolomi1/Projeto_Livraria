@@ -48,6 +48,10 @@ public class LoginApi extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		    String action = request.getParameter("action");
+		
+		if(action.equals("logar")) {
+		
 			UsuarioDao dao = new UsuarioDao();
 			Gson gson = new Gson();
 		   	
@@ -68,7 +72,36 @@ public class LoginApi extends HttpServlet {
 				response.getWriter().flush();
 				
 			}
+		}else {
+			
+			doGet_usuario_logado(request,response);			
+			
+		}
 		
+	}
+	
+	protected void doGet_usuario_logado(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession(false);
+		Gson gson = new Gson();
+		
+		if(session != null) {
+			
+			if(session.getAttribute("usuario_logado") != null) {				
+				response.getWriter().print(gson.toJson("true"));
+				response.getWriter().flush();				
+			}else {
+				
+				response.getWriter().print(gson.toJson("false"));
+				response.getWriter().flush();	
+			}		
+						
+		}else {
+			response.getWriter().print(gson.toJson("false"));
+			response.getWriter().flush();			
+		}
+		
+	
 	}
 
 	/**

@@ -166,7 +166,7 @@ public class LivrariaApi extends HttpServlet {
 		ProdutoDao produtoDao = new ProdutoDao();		
 		VendaDao vendaDao = new VendaDao();	
 		Produto_VendaDao pv_dao = new Produto_VendaDao();
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		//inserir primeiro a venda
 		
 		Venda venda = new Venda();
@@ -190,7 +190,7 @@ public class LivrariaApi extends HttpServlet {
 		 		    
 		}
 			
-		
+		produtos.clear();
 		
 	}
 

@@ -148,7 +148,7 @@ var livraria = function() {
 
         var email = $(controles().email_login).val();
         var senha = $(controles().senha_login).val();
-        request= "http://localhost:8080/Caldeira_Furado/LoginApi?email="+ email + "&senha=" + senha;      
+        request= "http://localhost:8080/Caldeira_Furado/LoginApi?action=logar&email="+ email + "&senha=" + senha;      
 
         $.ajax({
             type:'get',
@@ -162,6 +162,56 @@ var livraria = function() {
                 alert("erro ao realizar o login");
             });
 
+    }
+
+    var ValidaUsuarioForum = function(){
+
+
+        request= "http://localhost:8080/Caldeira_Furado/LoginApi?action=verifica";      
+
+        $.ajax({
+            type:'get',
+            url: request,            
+            dataType:'json',
+        })
+            .done(function(returned) {    
+                debugger;
+                if(returned == "true"){
+                    window.location.href = "forum.html";
+                }else{
+                    alert("Precisa estar logado no sistema para acessar o Fórum");
+                }
+               
+            })
+            .fail(function(jqXHR) {
+                alert("erro ao validar o login");
+            });
+        
+    }
+
+    var ValidaUsuarioCarrinho = function(){
+
+
+        request= "http://localhost:8080/Caldeira_Furado/LoginApi?action=verifica";      
+
+        $.ajax({
+            type:'get',
+            url: request,            
+            dataType:'json',
+        })
+            .done(function(returned) {    
+                debugger;
+                if(returned == "true"){
+                    window.location.href = "carrinho.html";
+                }else{
+                    alert("Precisa estar logado no sistema para acessar o Fórum");
+                }
+               
+            })
+            .fail(function(jqXHR) {
+                alert("erro ao validar o login");
+            });
+        
     }
     var search_books = function() {
         var content = document.getElementById(controles().search_books).value;
@@ -451,7 +501,9 @@ var livraria = function() {
         load_carrinho: load_carrinho,           
         comprar_produtos: comprar_produtos,
         remove_carrinho: remove_carrinho,
-        LogarUsuario: LogarUsuario          
+        LogarUsuario: LogarUsuario,
+        ValidaUsuarioForum: ValidaUsuarioForum,
+        ValidaUsuarioCarrinho: ValidaUsuarioCarrinho          
     };
 
 }();

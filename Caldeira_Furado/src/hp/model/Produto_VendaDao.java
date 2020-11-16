@@ -75,7 +75,7 @@ public class Produto_VendaDao implements Dao<Produto_Venda>{
 		historico.setCod_Venda(rs.getInt("cod_venda"));
 		historico.setCod_Usuario(rs.getInt("cod_usuario"));
 		historico.setDescricao(rs.getString("descricao"));
-		historico.setValor(rs.getInt("cod_usuario"));
+		historico.setValor(rs.getInt("valor"));
 		historico.setQuantidade(rs.getInt("quantidade"));
 		historico.setData_Venda(rs.getDate("data_venda"));
 		

@@ -72,7 +72,9 @@ var livraria = function() {
             password_altera: "#password_altera",
             cod_usuario: "#cod_usuario",
             table_carrinho: "#table_body",
-            descricaoTopico: "#descricaoTopico"
+            descricaoTopico: "#descricaoTopico",
+            email_login: "#email_login",
+            senha_login: "#senha_login"
     
         };
     }
@@ -138,6 +140,26 @@ var livraria = function() {
             })
             .fail(function(jqXHR) {
                 console.log('Erro');
+            });
+
+    }
+
+    var LogarUsuario = function(){
+
+        var email = $(controles().email_login).val();
+        var senha = $(controles().senha_login).val();
+        request= "http://localhost:8080/Caldeira_Furado/LoginApi?email="+ email + "&senha=" + senha;      
+
+        $.ajax({
+            type:'get',
+            url: request,            
+            dataType:'json',
+        })
+            .done(function(returned) {                
+               alert(returned);
+            })
+            .fail(function(jqXHR) {
+                alert("erro ao realizar o login");
             });
 
     }
@@ -428,7 +450,8 @@ var livraria = function() {
         adiciona_carrinho: adiciona_carrinho,
         load_carrinho: load_carrinho,           
         comprar_produtos: comprar_produtos,
-        remove_carrinho: remove_carrinho          
+        remove_carrinho: remove_carrinho,
+        LogarUsuario: LogarUsuario          
     };
 
 }();

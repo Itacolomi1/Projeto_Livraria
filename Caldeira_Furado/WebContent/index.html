@@ -34,15 +34,15 @@
                 <ul class="dropdown-menu">
                     <form class="px-4 py-3">
                         <div class="form-group">
-                            <label for="exampleDropdownFormEmail1">Endereço de email</label>
-                            <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@exemplo.com">
+                            <label for="email_login">Endereço de email</label>
+                            <input type="email" class="form-control" id="email_login" placeholder="email@exemplo.com">
                         </div>
                         <div class="form-group">
-                            <label for="exampleDropdownFormPassword1">Senha</label>
-                            <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Senha">
+                            <label for="senha_login">Senha</label>
+                            <input type="password" class="form-control" id="senha_login" placeholder="Senha">
                         </div>
 
-                        <button onclick="manutencao()" type="submit" class="btn btn-primary">Entrar</button>
+                        <button onclick="livraria.LogarUsuario()" type="button" class="btn btn-primary">Entrar</button>
                     </form>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="cadastro.html">Novo, por aqui? Regitre-se.</a>

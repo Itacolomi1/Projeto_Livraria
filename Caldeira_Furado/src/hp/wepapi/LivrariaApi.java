@@ -166,10 +166,11 @@ public class LivrariaApi extends HttpServlet {
 		ProdutoDao produtoDao = new ProdutoDao();		
 		VendaDao vendaDao = new VendaDao();	
 		Produto_VendaDao pv_dao = new Produto_VendaDao();
+		HttpSession session = request.getSession();
 		//inserir primeiro a venda
 		
 		Venda venda = new Venda();
-		venda.setCod_Usuario(1);  //setando código usuário temporariamente
+		venda.setCod_Usuario((int)session.getAttribute("usuario_logado"));  //setando código usuário temporariamente
 		venda.setTotal(MaximoVenda(produtos));
 		int id_venda = vendaDao.insert_id(venda);
 		int id_produto =0;

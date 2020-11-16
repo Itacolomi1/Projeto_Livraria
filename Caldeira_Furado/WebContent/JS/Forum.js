@@ -99,7 +99,7 @@ var forum = function() {
         $.ajax({
             type:'post',
             url: request
-        })s
+        })
             .done(function(returned) {                
                 alert("Comentário inserido com sucesso");
             })

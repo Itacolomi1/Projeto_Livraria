@@ -115,7 +115,7 @@ private Connection connection;
                     .prepareStatement("SELECT * FROM hp_db.forum WHERE cod_pai = ?",ResultSet.TYPE_SCROLL_SENSITIVE, 
                             ResultSet.CONCUR_UPDATABLE);
 			
-			preparedStatement.setString(1, Integer.toString(forum.getCod_Filho()));	
+			preparedStatement.setString(1, Integer.toString(forum.getCod_Pai()));	
 			ResultSet rs = preparedStatement.executeQuery();
 			
 		while(rs.next()) {	

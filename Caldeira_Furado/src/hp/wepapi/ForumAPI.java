@@ -55,34 +55,40 @@ public class ForumAPI extends HttpServlet {
 		// TODO Auto-generated method stub		
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/json");
+		
 		String action= request.getParameter("action");
 		String id = request.getParameter("idTopico");
-		
-		Forum forum = new Forum();			
 		Gson gson = new Gson();
-		ArrayList<Forum> topic = new ArrayList<Forum>();
-		ForumDao dao = new ForumDao();
-		topic = dao.findAll(forum);
 		
-		if(topic != null) {
-			response.getWriter().print(gson.toJson(topic));
-			response.getWriter().flush();
+		
+		if(action.equals("topics")) {
+			
+			Forum forum = new Forum();			
+		
+			ArrayList<Forum> topic = new ArrayList<Forum>();
+			ForumDao dao = new ForumDao();
+			topic = dao.findAll(forum);
+			
+			if(topic != null) {
+				response.getWriter().print(gson.toJson(topic));
+				response.getWriter().flush();
+			}
 		}
-		
-		if(action !=null && id != null && action.equals("list")) {
+		else {
 			Forum forum2 = new Forum();		
 			forum2.setCod_Pai(Integer.parseInt(id));	
 			
-			Gson gson2 = new Gson();
+			
 			ArrayList<Forum> coment = new ArrayList<Forum>();
 			ForumDao dao2 = new ForumDao();
 			coment = dao2.findComents(forum2);
 			
-			if(topic != null) {
-				response.getWriter().print(gson2.toJson(coment));
+			if(coment != null) {
+				response.getWriter().print(gson.toJson(coment));
 				response.getWriter().flush();
-			}
+			
+			}		
+	
 		}
 	
 	}

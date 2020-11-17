@@ -111,7 +111,7 @@ var forum = function() {
 
     var carregaTopico = function() {       
        
-        request= "http://localhost:8080/Caldeira_Furado/ForumAPI";      
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=topics";      
 
         $.ajax({
             type:'get',
@@ -131,14 +131,14 @@ var forum = function() {
             });
     }
 
-    var carregaComentario = function() {       
+    var carregaComentario = function(codigo) {       
        
-        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=list";      
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=list"+"&idTopico="+ codigo;      
 
         $.ajax({
             type:'get',
             url: request,
-            dataType:'json'    
+            dataType:'json'               
             
         })
             .done(function(returned) {
@@ -149,6 +149,7 @@ var forum = function() {
 
             })
             .fail(function(jqXHR) {
+                debugger;
                 alert("Erro ao carregar comentário")
             });
     }
@@ -158,7 +159,7 @@ var forum = function() {
         $(controles().lista_Topicos)
         .append( 
 
-            "<div onclick='forum.carregaComentario()' class='topico'>"+
+            "<div onclick='forum.carregaComentario("+ topico.Cod_Filho + ")'" + "class='topico'>"+
             "<div style='display:none'>" + topico.Cod_Filho+"</div>"+
             "<p>"+topico.Descricao + "</p>"+
             "<div id='listacomentariosmaster' >"+
@@ -180,7 +181,7 @@ var forum = function() {
         .append(     
             "<div class='respostas'>"+
             "<p>"+topico.Descricao + "</p>"+//LINHA COMENTÁRIO
-            "</div>"                             
+            "</div>"                            
         
         );  
     }

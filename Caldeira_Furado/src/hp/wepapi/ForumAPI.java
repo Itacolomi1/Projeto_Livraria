@@ -140,7 +140,11 @@ public class ForumAPI extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		Forum fr = new Forum();			
+		fr.setCod_Filho(Integer.parseInt(request.getParameter("id")));			
+		
+		ForumDao dao = new ForumDao();
+		dao.delete(fr);
 	}
 
 

@@ -70,10 +70,24 @@ private Connection connection;
 
 	@Override
 	public void delete(Forum forum) {
-		// TODO Auto-generated method stub
+		
+		try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("DELETE FROM hp_db.forum WHERE cod_filho = ?");
+            
+            // Parameters start with 1           
+            preparedStatement.setString(1, Integer.toString(forum.getCod_Filho()));
+            
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
 		
 	}
-
+	
+	
 	@Override
 	public Forum find(Forum forum) {
 		// TODO Auto-generated method stub

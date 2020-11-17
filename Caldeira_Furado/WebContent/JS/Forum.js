@@ -162,7 +162,7 @@ var forum = function() {
             "<div onclick='forum.carregaComentario("+ topico.Cod_Filho + ")'" + "class='topico'>"+
             "<div style='display:none'>" + topico.Cod_Filho+"</div>"+
             "<p>"+topico.Descricao + "</p>"+
-            "<div id='listacomentariosmaster' >"+
+            "<div id='listacomentariosmaster' class='respostas' >"+
              //LINHAS COMENTÁRIO                 
             "</div>"+
            "<div class='perguntar'>"+
@@ -179,17 +179,16 @@ var forum = function() {
                 
         $(controles().lista_Comentarios)
         .append(     
-            "<div class='respostas'>"+
+            "<div class='respostas' >"+
             "<p>"+topico.Descricao + "</p>"+//LINHA COMENTÁRIO
             "</div>"                            
         
         );  
     }
 
-    var DeletaUsuario = function(){
-        var cod_usuario = $(controles().cod_usuario).val();              
+    var DeletaTopico = function(codigo){
         
-        request= "http://localhost:8080/Caldeira_Furado/UsuarioApi?id=" + cod_usuario;
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?id=" + codigo;
         
 
         $.ajax({
@@ -197,7 +196,7 @@ var forum = function() {
             url: request,                        
         })
             .done(function(returned) {                
-                console.log("Usuario deletado");                 
+                console.log("Tópico deletado com sucesso");                 
             })
             .fail(function(jqXHR) {
                 console.log('Erro');
@@ -210,7 +209,8 @@ var forum = function() {
         inserirTopico: inserirTopico,
         carregaTopico:carregaTopico,
         inserirComentario:inserirComentario,
-        carregaComentario:carregaComentario      
+        carregaComentario:carregaComentario,
+        DeletaTopico:DeletaTopico
     };
 
 }();

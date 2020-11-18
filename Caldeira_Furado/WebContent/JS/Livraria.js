@@ -9,6 +9,9 @@ var bookslist = []
 var newslist = []
 var characterList = []
 var itensList =[]
+var lista_grafico =[]
+var valor_Novembro =0;
+var venda_Novembro =0;
 
 function manutencao() { alert("Ainda estamos trabalhando nessa função"); }
 
@@ -74,7 +77,7 @@ var livraria = function() {
             table_carrinho: "#table_body",
             descricaoTopico: "#descricaoTopico",
             email_login: "#email_login",
-            senha_login: "#senha_login"
+            senha_login: "#senha_login"          
     
         };
     }
@@ -487,6 +490,59 @@ var livraria = function() {
         ul.innerHTML = '';
     }
     
+    var carrega_vendas = function() {              
+       
+        request= "http://localhost:8080/Caldeira_Furado/LivrariaApi?action=list_historico";      
+
+        $.ajax({
+            type:'get',
+            url: request,
+            dataType:'json'                           
+        })
+            .done(function(returned) {                
+                grafico(returned);        
+
+            })
+            .fail(function(jqXHR) {
+                
+                alert("Erro ao carregar comentário")
+            });
+    }
+
+    var dados_grafico = function(item,i){        
+            if(item.Data_Venda.includes("nov")){
+                valor_Novembro += item.Valor;
+                venda_Novembro++;
+            }
+
+    }
+  
+    var grafico = function(lista) {
+
+        lista.forEach(dados_grafico);
+        console.log("venda " + venda_Novembro);
+        console.log("valor " + valor_Novembro);
+        let chart = new Chart(primeiroGrafico, {
+        type: 'line',
+        data: {
+
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            datasets: [{
+                label: 'Compras X Mês',
+                backgroundColor: '#873436',
+                borderColor: 'black',
+                data: [0, 10, 5, 2, 20, 30, 45, 32, 44, 65, venda_Novembro, 23]
+
+            }, {
+                label: 'Total Gasto x Mês',
+                data: [40.00, 80.00, 50.5, 90.00, 17.8, 18.06,34,45,23,12,valor_Novembro,30],
+                backgroundColor: "#fbc12e",
+                borderColor: "black"
+            }]
+        }
+    });
+    }
+   
 
     return {
         search_books: search_books,
@@ -503,7 +559,9 @@ var livraria = function() {
         remove_carrinho: remove_carrinho,
         LogarUsuario: LogarUsuario,
         ValidaUsuarioForum: ValidaUsuarioForum,
-        ValidaUsuarioCarrinho: ValidaUsuarioCarrinho          
+        ValidaUsuarioCarrinho: ValidaUsuarioCarrinho,
+        carrega_vendas: carrega_vendas
+            
     };
 
 }();

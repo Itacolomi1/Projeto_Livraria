@@ -129,8 +129,9 @@ public class LivrariaApi extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");	
 		
+		HttpSession session = request.getSession(false);
 		Usuario usuario = new Usuario();
-		usuario.setCod_Usuario(1);
+		usuario.setCod_Usuario((int)session.getAttribute("usuario_logado"));
 		
 		Produto_VendaDao pv_dao = new Produto_VendaDao();
 		ArrayList<Historico_Compra_Usuario> retorno = pv_dao.comprarUsuario(usuario);

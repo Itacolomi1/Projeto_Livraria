@@ -10,8 +10,30 @@ var newslist = []
 var characterList = []
 var itensList =[]
 var lista_grafico =[]
-var valor_Novembro =0;
-var venda_Novembro =0;
+var valor_Janeiro = 0;
+var venda_Janeiro = 0;
+var valor_Fevereiro = 0;
+var venda_Fevereiro = 0;
+var valor_Marco = 0;
+var venda_Marco = 0;
+var valor_Abril = 0;
+var venda_Abril = 0;
+var valor_Maio = 0;
+var venda_Maio = 0;
+var valor_Junho = 0;
+var venda_Junho = 0;
+var valor_Julho = 0;
+var venda_Julho = 0;
+var valor_Agosto = 0;
+var venda_Agosto = 0;
+var valor_Setembro = 0;
+var venda_Setembro = 0;
+var valor_Outubro = 0;
+var venda_Outubro = 0;
+var valor_Novembro = 0;
+var venda_Novembro = 0;
+var valor_Dezembro = 0;
+var venda_Dezembro = 0;
 
 function manutencao() { alert("Ainda estamos trabalhando nessa função"); }
 
@@ -509,19 +531,61 @@ var livraria = function() {
             });
     }
 
-    var dados_grafico = function(item,i){        
-            if(item.Data_Venda.includes("nov")){
-                valor_Novembro += item.Valor;
-                venda_Novembro++;
-            }
+    var dados_grafico = function(item, i) {
+        if (item.Data_Venda.includes("jan")) {
+            valor_Janeiro += item.Valor;
+            venda_Janeiro++;
+        }
+        if (item.Data_Venda.includes("fev")) {
+            valor_Fevereiro += item.Valor;
+            venda_Fevereiro++;
+        }
+        if (item.Data_Venda.includes("marc")) {
+            valor_Marco += item.Valor;
+            venda_Marco++;
+        }
+        if (item.Data_Venda.includes("abr")) {
+            valor_Abril += item.Valor;
+            venda_Abril++;
+        }
+        if (item.Data_Venda.includes("maio")) {
+            valor_Maio += item.Valor;
+            venda_Maio++;
+        }
+        if (item.Data_Venda.includes("jun")) {
+            valor_Junho += item.Valor;
+            venda_Junho++;
+        }
+        if (item.Data_Venda.includes("jul")) {
+            valor_Julho += item.Valor;
+            venda_Julho++;
+        }
+        if (item.Data_Venda.includes("ago")) {
+            valor_Agosto += item.Valor;
+            venda_Agosto++;
+        }
+        if (item.Data_Venda.includes("set")) {
+            valor_Setembro += item.Valor;
+            venda_Setembro++;
+        }
+        if (item.Data_Venda.includes("out")) {
+            valor_Outubro += item.Valor;
+            venda_Outubro++;
+        }
+        if (item.Data_Venda.includes("nov")) {
+            valor_Novembro += item.Valor;
+            venda_Novembro++;
+        }
+        if (item.Data_Venda.includes("dez")) {
+            valor_Dezembro += item.Valor;
+            venda_Dezembro++;
+        }
 
     }
   
     var grafico = function(lista) {
 
-        lista.forEach(dados_grafico);
-        console.log("venda " + venda_Novembro);
-        console.log("valor " + valor_Novembro);
+        lista.forEach(dados_grafico);   
         let chart = new Chart(primeiroGrafico, {
         type: 'line',
         data: {
@@ -531,11 +595,11 @@ var livraria = function() {
                 label: 'Compras X Mês',
                 backgroundColor: '#873436',
                 borderColor: 'black',
-                data: [0, 10, 5, 2, 20, 30, 45, 32, 44, 65, venda_Novembro, 23]
+                data: [venda_Janeiro, venda_Fevereiro, venda_Marco, venda_Abril, venda_Maio, venda_Junho, venda_Julho, venda_Agosto, venda_Setembro, venda_Outubro, venda_Novembro, venda_Dezembro]
 
             }, {
                 label: 'Total Gasto x Mês',
-                data: [40.00, 80.00, 50.5, 90.00, 17.8, 18.06,34,45,23,12,valor_Novembro,30],
+                data: [valor_Janeiro, valor_Fevereiro, valor_Marco, valor_Abril, valor_Maio, valor_Junho, valor_Julho, valor_Agosto, valor_Setembro, valor_Outubro, valor_Novembro, valor_Dezembro],
                 backgroundColor: "#fbc12e",
                 borderColor: "black"
             }]

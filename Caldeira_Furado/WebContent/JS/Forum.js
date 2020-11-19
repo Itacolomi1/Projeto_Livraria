@@ -63,7 +63,6 @@ var forum = function() {
             password_altera: "#password_altera",
             cod_usuario: "#cod_usuario",
             table_carrinho: "#table_body",
-            descricaoComentario: "#descricaoComentario",
             lista_Topicos: "#listatopicos",
             lista_Comentarios:"#listacomentariosmaster"
     
@@ -91,9 +90,9 @@ var forum = function() {
 
     var inserirComentario = function(codigo) {  
 
-        var descricao= $(controles().descricaoComentario).val();
+        var descricao= $("#descricaoComentario"+codigo).val();
     
-        
+        debugger;
         request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=coment&desctopico="+ descricao +"&idTopico="+ codigo;      
 
         $.ajax({
@@ -142,14 +141,14 @@ var forum = function() {
             
         })
             .done(function(returned) {
-                debugger;                
+                     
                 itensList = returned;
                 $(controles().lista_Comentarios).html("");
                 itensList.forEach(lista_coment);
 
             })
             .fail(function(jqXHR) {
-                debugger;
+            
                 alert("Erro ao carregar comentário")
             });
     }
@@ -159,19 +158,30 @@ var forum = function() {
         $(controles().lista_Topicos)
         .append( 
 
-            "<div onclick='forum.carregaComentario("+ topico.Cod_Filho + ")'" + "class='topico'>"+
-            "<div style='display:none'>" + topico.Cod_Filho+"</div>"+
-            "<p>"+topico.Descricao + "</p>"+
+            "<div class='topico'>"+
+            "<p>"+topico.Descricao + "</p>" +
+            "<button class='mostrar' onclick='forum.carregaComentario("+ topico.Cod_Filho + ")'></button>"+
+            "<button onclick='forum.DeletaTopico("+ topico.Cod_Filho+","+ topico.Cod_Usuario +","+ topico.Cod_Pai +")'" + " class='apagartopico' ></button>"+
+            "<div style='display:none'>" + topico.Cod_Filho +"</div>"+
+            "<div style='display:none'>" + topico.Cod_Usuario +"</div>"+
+            "<div style='display:none'>" + topico.Cod_Pai +"</div>"+
+            
+            
             "<div id='listacomentariosmaster' class='respostas' >"+
              //LINHAS COMENTÁRIO                 
             "</div>"+
            "<div class='perguntar'>"+
-                "<input id='descricaoComentario'" + "class='form-control mr-sm-2' type='search' placeholder='escreva um comentário' aria-label='comentario'>"+
+                "<input id='descricaoComentario"+ topico.Cod_Filho + "' class='form-control mr-sm-2' type='search' placeholder='escreva um comentário' aria-label='comentario'>"+
                 "<button onclick='forum.inserirComentario("+ topico.Cod_Filho + ")'" + " class='btn btn-outline-success my-2 my-sm-0' type='button'>Publicar</button>"+
             "</div>"+
-            "</div>"
-        );        
+            "</div>"    
             
+                
+
+
+            
+    
+        );             
 
     }  
 
@@ -181,25 +191,26 @@ var forum = function() {
         .append(     
             "<div class='respostas' >"+
             "<p>"+topico.Descricao + "</p>"+//LINHA COMENTÁRIO
+            "<button class='apagarcomentario'></button>"+
             "</div>"                            
-        
+
+          
         );  
     }
 
-    var DeletaTopico = function(codigo){
+    var DeletaTopico = function(codigo,id_user,codigopai){
         
-        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?id=" + codigo;
-        
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?id=" + codigo + "&userId=" + id_user+ "&IdPai=" + codigopai;
 
         $.ajax({
             type:'delete',
             url: request,                        
         })
             .done(function(returned) {                
-                console.log("Tópico deletado com sucesso");                 
+                alert("Tópico deletado com sucesso");                 
             })
             .fail(function(jqXHR) {
-                console.log('Erro');
+                console.log('Erro ao deletar');
             });
 
     }  

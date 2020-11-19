@@ -11,11 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
 import hp.beans.Forum;
 import hp.beans.Usuario;
+import hp.beans.Venda;
 import hp.model.ForumDao;
 import hp.model.UsuarioDao;
 
@@ -101,6 +103,9 @@ public class ForumAPI extends HttpServlet {
 				
 		String action= request.getParameter("action");
 		String idTopico = request.getParameter("idTopico");
+        HttpSession session = request.getSession(false);
+		
+		int idLogado = (int)session.getAttribute("usuario_logado");  //setando c�digo usu�rio temporariamente
 			
 		if(action.equals("topico"))
 		{
@@ -109,7 +114,7 @@ public class ForumAPI extends HttpServlet {
 			forum.setCod_Filho(0);
 			forum.setDescricao(request.getParameter("desctopico"));
 			forum.setCod_Pai(0);
-			forum.setCod_Usuario(1);	//pegar usuário	
+			forum.setCod_Usuario(idLogado);	//pegar usuário	
 			
 			ForumDao dao = new ForumDao();
 			dao.insertTopico(forum);
@@ -121,7 +126,7 @@ public class ForumAPI extends HttpServlet {
 			forum.setCod_Filho(0);
 			forum.setDescricao(request.getParameter("desctopico"));
 			forum.setCod_Pai(Integer.parseInt(idTopico));
-			forum.setCod_Usuario(1);		
+			forum.setCod_Usuario(idLogado);		
 			
 			ForumDao dao = new ForumDao();
 			dao.insert(forum);
@@ -140,11 +145,30 @@ public class ForumAPI extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Forum fr = new Forum();			
-		fr.setCod_Filho(Integer.parseInt(request.getParameter("id")));			
 		
-		ForumDao dao = new ForumDao();
-		dao.delete(fr);
+		Forum fr = new Forum();	
+		HttpSession session = request.getSession(false);
+		
+		int idLogado = (int)session.getAttribute("usuario_logado");  //setando c�digo usu�rio temporariamente
+		
+		fr.setCod_Filho(Integer.parseInt(request.getParameter("id")));
+		fr.setCod_Usuario(Integer.parseInt(request.getParameter("userId")));		
+		fr.setCod_Pai(Integer.parseInt(request.getParameter("IdPai")));
+		
+		if(fr.getCod_Usuario()== idLogado)
+		{
+			ForumDao dao = new ForumDao();
+			if(fr.getCod_Pai() != 0)
+			{
+				dao.delete(fr);
+			}
+			else 
+			{
+				dao.deleteComentario(fr);
+				dao.delete(fr);
+			}
+			
+		}
 	}
 
 

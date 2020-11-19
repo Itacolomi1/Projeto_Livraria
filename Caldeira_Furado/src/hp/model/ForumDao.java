@@ -25,6 +25,7 @@ private Connection connection;
 	public void insert(Forum forum) {
 		// TODO Auto-generated method stub
 		try {
+			
             PreparedStatement preparedStatement = connection
                     .prepareStatement("INSERT INTO hp_db.forum (cod_filho, descricao, cod_pai, cod_usuario, data_post) VALUES (0, ?, ?, ?, now())");
             
@@ -72,7 +73,8 @@ private Connection connection;
 	public void delete(Forum forum) {
 		
 		try {
-            PreparedStatement preparedStatement = connection
+			
+		            PreparedStatement preparedStatement = connection
                     .prepareStatement("DELETE FROM hp_db.forum WHERE cod_filho = ?");
             
             // Parameters start with 1           
@@ -86,6 +88,26 @@ private Connection connection;
         }
 		
 	}
+	
+	public void deleteComentario(Forum forum) {
+			
+			try {
+				
+			            PreparedStatement preparedStatement = connection
+	                    .prepareStatement("DELETE FROM hp_db.forum WHERE cod_pai = ?");
+	            
+	            // Parameters start with 1           
+	            preparedStatement.setString(1, Integer.toString(forum.getCod_Filho()));
+	            
+	            preparedStatement.executeUpdate();
+	
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println(e.getMessage());
+	        }
+			
+		}
+
 	
 	
 	@Override
@@ -150,7 +172,6 @@ private Connection connection;
 
 	@Override
 	public Forum preencherEntidade(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
         Forum forum = new Forum();
 		
 		forum.setCod_Filho(rs.getInt("cod_filho"));

@@ -264,10 +264,14 @@ body .dropdown-menu {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    position: relative;
+    width: 80%;
+    margin: auto;
+    height: auto;
 }
 
 #forum .topico>p {
-    width: 80%;
+    width: 100%;
     text-align: center;
     font-size: 20px;
     border: 1px solid #873436;
@@ -276,14 +280,24 @@ body .dropdown-menu {
     color: white;
     position: relative;
     margin-bottom: 0;
-    padding-right: 74px;
 }
 
-#forum .topico p::after {
+#forum .topico .mostrar {
+    right: 0;
+    width: 28px;
+    top: 5px;
+    position: absolute;
+    height: 30px;
+    bottom: auto;
+    background: none;
+    border: none;
+}
+
+#forum .topico .mostrar::after {
     content: "";
     display: inline-block;
     vertical-align: middle;
-    right: 20px;
+    right: 50%;
     width: 0;
     top: 43%;
     position: absolute;
@@ -312,7 +326,7 @@ body .dropdown-menu {
 }
 
 #forum .topico .respostas {
-    width: 80%;
+    width: 100%;
     position: relative;
 }
 
@@ -325,6 +339,12 @@ body .dropdown-menu {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+#forum .topico .mostrar:focus,
+#forum .topico .apagarcomentario,
+#forum .topico .apagartopico {
+    outline: none;
 }
 
 #forum .topico .respostas p span {
@@ -347,7 +367,7 @@ body .dropdown-menu {
 }
 
 #forum .topico .perguntar {
-    width: 80%;
+    width: 100%;
     display: flex;
 }
 
@@ -469,25 +489,30 @@ body .dropdown-menu {
     width: 105px
 }
 
-#forum .topico p::before {
-    content: url('../img/lixob.svg');
+#forum .topico .apagartopico {
+    background-image: url('../img/lixob.svg');
     right: 38px;
     width: 28px;
     top: 5px;
     position: absolute;
     height: 30px;
     bottom: auto;
+    border: none;
+    background-color: #873436;
 }
 
-#forum .topico .respostas::after {
-    content: url('../img/lixo.svg');
+
+#forum .topico .respostas .apagarcomentario {
     margin-bottom: 0;
+    background-image: url(../img/lixo.svg);
     right: 2px;
     width: 28px;
     top: 5px;
     position: absolute;
     height: 30px;
     bottom: auto;
+    background-color: white;
+    border: none;
 }
 
 #carrinho table .apagar {

@@ -189,6 +189,24 @@ var livraria = function() {
 
     }
 
+    var DeslogarUsuario = function(){
+        
+        request= "http://localhost:8080/Caldeira_Furado/LoginApi"
+
+        $.ajax({
+            type:'delete',
+            url: request,            
+            dataType:'json'
+        })
+            .done(function(returned) {                
+                window.location.href = "index.html";
+            })
+            .fail(function(jqXHR) {
+                alert("erro ao realizar o login");
+            });
+
+    }
+
     var ValidaUsuarioForum = function(){
 
 
@@ -229,7 +247,7 @@ var livraria = function() {
                 if(returned == "true"){
                     window.location.href = "carrinho.html";
                 }else{
-                    alert("Precisa estar logado no sistema para acessar o Fórum");
+                    alert("Precisa estar logado no sistema para acessar o Carrinho");
                 }
                
             })
@@ -238,6 +256,31 @@ var livraria = function() {
             });
         
     }
+
+    var ValidaUsuarioPerfil = function(){
+
+
+        request= "http://localhost:8080/Caldeira_Furado/LoginApi?action=verifica";      
+
+        $.ajax({
+            type:'get',
+            url: request,            
+            dataType:'json',
+        })
+            .done(function(returned) {    
+                
+                if(returned == "true"){
+                    //exibe caixa
+                    window.location.href = "perfil.html";
+                }
+               
+            })
+            .fail(function(jqXHR) {
+                alert("erro ao validar o login");
+            });
+        
+    }
+
     var search_books = function() {
         var content = document.getElementById(controles().search_books).value;
         var request = url_base + content + '&filter=partial&projection=lite&key=' + api_key;     
@@ -437,6 +480,7 @@ var livraria = function() {
         })
             .done(function(returned) { 
                 alert(returned);
+                location.reload();
             })
             .fail(function(jqXHR) {
                 alert("Erro ao adicionar ao carrinho")
@@ -454,9 +498,9 @@ var livraria = function() {
                 "<td>" + livro.Descricao+"</td>" +
                 "<td>" + livro.Valor+"</td>"+ 
                 "<td> <div class='quantidade'>"+
-                    "<button onclick='manutencao()'>+</button>"+
-                    "<label class='qtd'>" + livro.Quantidade +"</label>" +
-                    "<button onclick='manutencao()'>-</button>" +
+                    // "<button onclick='manutencao()'>+</button>"+
+                    // "<label class='qtd'>" + livro.Quantidade +"</label>" +
+                    // "<button onclick='manutencao()'>-</button>" +
                     "<button class= 'apagar' onclick='livraria.remove_carrinho("+ livro.Cod_Livro +")'>Excluir</button>" +
                 "</div></td>"+
                 "</tr>"                      
@@ -473,7 +517,8 @@ var livraria = function() {
             
         })
             .done(function(returned) {
-                alert("A sua compra foi efetuada com sucesso")
+                alert("A sua compra foi efetuada com sucesso");
+                location.reload();
 
             })
             .fail(function(jqXHR) {
@@ -624,7 +669,9 @@ var livraria = function() {
         LogarUsuario: LogarUsuario,
         ValidaUsuarioForum: ValidaUsuarioForum,
         ValidaUsuarioCarrinho: ValidaUsuarioCarrinho,
-        carrega_vendas: carrega_vendas
+        carrega_vendas: carrega_vendas,
+        ValidaUsuarioPerfil: ValidaUsuarioPerfil,
+        DeslogarUsuario: DeslogarUsuario
             
     };
 

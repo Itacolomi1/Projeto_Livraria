@@ -125,6 +125,21 @@ public class LoginApi extends HttpServlet {
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		HttpSession session = request.getSession(false);
+		Gson gson = new Gson();
+		
+		if(session != null) {
+			session.invalidate();
+			response.getWriter().print(gson.toJson("true"));
+			response.getWriter().flush();
+			
+		}else {
+			response.getWriter().print(gson.toJson("false"));
+			response.getWriter().flush();	
+			
+		}
+		
 	}
 
 }

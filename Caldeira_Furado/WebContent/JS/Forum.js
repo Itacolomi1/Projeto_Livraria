@@ -80,7 +80,8 @@ var forum = function() {
             url: request
         })
             .done(function(returned) {                
-                alert("Tópico inserido com sucesso. Recarregue a página");
+                alert("Tópico inserido com sucesso");
+                location.reload();
             })
             .fail(function(jqXHR) {
                 console.log('Erro');
@@ -92,7 +93,7 @@ var forum = function() {
 
         var descricao= $("#descricaoComentario"+codigo).val();
     
-        debugger;
+       
         request= "http://localhost:8080/Caldeira_Furado/ForumAPI?action=coment&desctopico="+ descricao +"&idTopico="+ codigo;      
 
         $.ajax({
@@ -119,7 +120,7 @@ var forum = function() {
             
         })
             .done(function(returned) {
-                debugger;                
+                              
                 itensList = returned;
                 $(controles().lista_Topicos).html("");
                 itensList.forEach(lista_topic);
@@ -141,9 +142,9 @@ var forum = function() {
             
         })
             .done(function(returned) {
-                     
+                  debugger;   
                 itensList = returned;
-                $(controles().lista_Comentarios).html("");
+                $(controles().lista_Comentarios + codigo).html("");
                 itensList.forEach(lista_coment);
 
             })
@@ -167,7 +168,7 @@ var forum = function() {
             "<div style='display:none'>" + topico.Cod_Pai +"</div>"+
             
             
-            "<div id='listacomentariosmaster' class='respostas' >"+
+            "<div id='listacomentariosmaster" + topico.Cod_Filho + "' class='respostas' >"+
              //LINHAS COMENTÁRIO                 
             "</div>"+
            "<div class='perguntar'>"+
@@ -187,11 +188,11 @@ var forum = function() {
 
     var lista_coment = function(topico,i){        
                 
-        $(controles().lista_Comentarios)
+        $(controles().lista_Comentarios + topico.Cod_Pai)
         .append(     
             "<div class='respostas' >"+
             "<p>"+topico.Descricao + "</p>"+//LINHA COMENTÁRIO
-            "<button class='apagarcomentario'></button>"+
+            "<button onclick='forum.DeletaComentario("+topico.Cod_Filho+ "," + topico.Cod_Usuario +","+ topico.Cod_Pai +")' class='apagarcomentario'></button>"+
             "</div>"                            
 
           
@@ -215,13 +216,31 @@ var forum = function() {
 
     }  
 
+    var DeletaComentario = function(codigo,id_user,codigopai){
+        
+        request= "http://localhost:8080/Caldeira_Furado/ForumAPI?id=" + codigo + "&userId=" + id_user+ "&IdPai=" + codigopai;
+
+        $.ajax({
+            type:'delete',
+            url: request,                        
+        })
+            .done(function(returned) {                
+                alert("comentario deletado com sucesso!");    1             
+            })
+            .fail(function(jqXHR) {
+                console.log('Erro ao deletar comentario');
+            });
+
+    } 
+
 
     return {     
         inserirTopico: inserirTopico,
         carregaTopico:carregaTopico,
         inserirComentario:inserirComentario,
         carregaComentario:carregaComentario,
-        DeletaTopico:DeletaTopico
+        DeletaTopico:DeletaTopico,
+        DeletaComentario: DeletaComentario
     };
 
 }();
